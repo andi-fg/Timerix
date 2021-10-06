@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8" />
+    <title>Timerix</title>
+    <link href="lib/bootstrap-5.1.0-dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-grid.css" rel="stylesheet" />
+    <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-reboot.css" rel="stylesheet" />
+    <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-utilities.css" rel="stylesheet" />
+</head>
+<body class="d-flex flex-column h-100">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item active">
+                        <img src="bilder/pfeil.png" onclick="zurueck(2)" />
+                    </li>
+                    <li class="nav-item">
+                        <img src="bilder/logout.png" onclick="logout()" />
+                    </li>
+
+                </ul>
+            </div>
+            <div class="mx-auto order-0" style=" color:white; font-size:30px">
+                <p>Timerix</p>
+            </div>
+            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <img src="bilder/logo.png" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="text-align:center">
+        <div>
+            <br />
+            <h1>Auswahl Zeiterfassung</h1>
+        </div>
+        <br />
+
+    </div>
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-2">
+                    <button id="mitButton" type="button" class="btn btn-secondary form-control" style="height:40px;font-size:13px; margin-right: 2px" hidden>Mitarbeiter</button>
+                </div>
+                <div class="col-2">
+                    <button id="tagesrapport" type="button" class="btn btn-secondary form-control" style="height: 40px; font-size: 13px; " hidden>Tagesrapport</button>
+                </div>
+                <div class="col-2">
+                    <button id="import" type="button" class="btn btn-secondary form-control" style="height: 40px; font-size: 13px; " hidden>Import</button>
+                </div>
+            </div>
+            <div class="row">
+                <div style="text-align:left" class="col p-4" id="mitDaten">
+                    Test
+                </div>
+                <div style="text-align:right" class="p-4 col" id="zeit">
+
+                </div>
+            </div>
+
+        </div>
+
+    </footer>
+    <script src="js/Footer.js"></script>
+    <script src="js/Uhrzeit.js"></script>
+    <script src="js/Session.js"></script>
+    <script src="js/Navigation.js"></script>
+    <script src="js/auswahlZeiterfassung.js"></script>
+    <script src="lib/bootstrap-5.1.0-dist/js/bootstrap.js"></script>
+    <script>
+        isMitId();
+    </script>
+</body>
+</html>

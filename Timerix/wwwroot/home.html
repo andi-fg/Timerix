@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8" />
+    <title>Timerix</title>
+    <link href="lib/bootstrap-5.1.0-dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-grid.css" rel="stylesheet" />
+    <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-reboot.css" rel="stylesheet" />
+    <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-utilities.css" rel="stylesheet" />
+</head>
+<body class="d-flex flex-column h-100">
+
+    <div class="container" style="text-align:center">
+        <div>
+            <br />
+            <h1>Timerix</h1>
+            <br />
+            <h2>Willkommen auf der TIMERIX Startseite bei Frike-Group</h2>
+            <br />
+            <p>Bitte Melden Sie sich mit Ihrer Mitarbeiternummer an:</p>
+            <p>(Scan oder Eingabe möglich)</p>
+        </div>
+        <br />
+        <div class="row" style="text-align:center">
+            <div class="col-4 offset-2">
+                <input id="mid" style="font-size: 35px; font-weight: bold; height: 90px;  " class="form-control" />
+            </div>
+            <div class="col-4">
+                <button class="btn btn-secondary form-control" style="height:90px; " onclick="login()">OK</button>
+            </div>
+        </div>
+        <br />
+        <p id="mitarbeiterFehler" style="font-size: 25px; color: red; font-weight: bold;"></p>
+    </div>
+    <footer class="footer mt-auto py-3 bg-light">
+        <div style="text-align:right" class="p-4" id="zeit">
+        </div>
+    </footer>
+    <script src="js/Uhrzeit.js"></script>
+    <script src="js/Login.js"></script>
+    <script src="js/Session.js"></script>
+    <script src="lib/bootstrap-5.1.0-dist/js/bootstrap.js"></script>
+    <script>
+        resetMitarbeiter();
+    </script>
+</body>
+</html>
