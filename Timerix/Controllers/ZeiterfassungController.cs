@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Timerix.Models;
+using Timerix.Models.ViewModels;
 
 namespace Timerix.Controllers
 {
@@ -50,7 +52,6 @@ namespace Timerix.Controllers
             {
                 return BadRequest();
             }
-
             _context.Entry(zeiterfassung).State = EntityState.Modified;
 
             try
@@ -155,6 +156,96 @@ namespace Timerix.Controllers
 
             return CreatedAtAction("GetZeiterfassung", new { id = zeiterfassung.ZeiterfassungId }, zeiterfassung);
         }
+
+        //Get alle Zeitrefassungen User
+        // GET: api/Zeiterfassung
+        [HttpGet("zeiterfassungenMit/{mid}")]
+        public async Task<ActionResult<IEnumerable<ZeiterfassungViewModel>>> GetZeiterfassungMitarbeiter(int mid)
+        {
+            var lz = await _context.Zeiterfassung
+                .Where(zeit => zeit.Mitarbeiter.MitarbeiterId == mid && zeit.ArbeitsvorgangId != null)
+                .OrderByDescending(zeit => zeit.ZeitVon)
+                .Include(zeit => zeit.Auftrag)
+                .Include(zeit => zeit.Produktionsstrasse)
+                .Include(zeit => zeit.Arbeitsvorgang)
+                .ToListAsync();
+            if (lz == null)
+            {
+                return NotFound();
+            }
+            List<ZeiterfassungViewModel> lzvm = new List<ZeiterfassungViewModel>();
+            foreach(Zeiterfassung z in lz) {
+                ZeiterfassungViewModel zv = new ZeiterfassungViewModel();
+                zv.ZeiterfassungId = z.ZeiterfassungId;
+                zv.ZeitBis = z.ZeitBis;
+                zv.ZeitVon = z.ZeitVon;
+                zv.Anzahl = z.Anzahl;
+                zv.Bemerkung = z.Bemerkung;
+                zv.MitarbeiterId = z.MitarbeiterId;
+                AuftragViewModel avm = new AuftragViewModel();
+                avm.AuftragId = z.Auftrag.AuftragId;
+                avm.Beschreibung = z.Auftrag.Beschreibung;
+                avm.ItemId = z.Auftrag.ItemId;
+                avm.QtySched = z.Auftrag.QtySched;
+                avm.Nummer = z.Auftrag.Nummer;
+                zv.Auftrag = avm;
+                ArbeitsvorgangViewModel abvm = new ArbeitsvorgangViewModel();
+                abvm.ArbeitsvorgangId = z.Arbeitsvorgang.ArbeitsvorgangId;
+                abvm.ArbeitsvorgangName = z.Arbeitsvorgang.ArbeitsvorgangName;
+                abvm.Aktiv = z.Arbeitsvorgang.Aktiv;
+                zv.Arbeitsvorgang = abvm;
+                ProduktionsstrasseViewModel pvm = new ProduktionsstrasseViewModel();
+                pvm.Aktiv = z.Produktionsstrasse.Aktiv;
+                pvm.Beschreibung = z.Produktionsstrasse.Beschreibung;
+                pvm.ProduktionsstrasseId = z.Produktionsstrasse.ProduktionsstrasseId;
+                zv.Produktionsstrasse = pvm;
+                lzvm.Add(zv);
+            }
+            return lzvm;
+        }
+        // GET: api/Zeiterfassung/5
+        [HttpGet("zeiterfassungenBearbeiten/{id}")]
+        public async Task<ActionResult<ZeiterfassungViewModel>> GetZeiterfassungBearbeiten(int id)
+        {
+            var z =  _context.Zeiterfassung
+                .Include(zeit => zeit.Auftrag)
+                .Include(zeit => zeit.Produktionsstrasse)
+                .Include(zeit => zeit.Arbeitsvorgang)
+                .Where(zeit => zeit.ZeiterfassungId == id )
+                .FirstOrDefault();
+
+            if (z == null)
+            {
+                return NotFound();
+            }
+            ZeiterfassungViewModel zv = new ZeiterfassungViewModel();
+            zv.ZeiterfassungId = z.ZeiterfassungId;
+            zv.ZeitBis = z.ZeitBis;
+            zv.ZeitVon = z.ZeitVon;
+            zv.Anzahl = z.Anzahl;
+            zv.Bemerkung = z.Bemerkung;
+            //zv.MitarbeiterId = z.MitarbeiterId;
+            AuftragViewModel avm = new AuftragViewModel();
+            avm.AuftragId = z.Auftrag.AuftragId;
+            avm.Beschreibung = z.Auftrag.Beschreibung;
+            avm.ItemId = z.Auftrag.ItemId;
+            avm.QtySched = z.Auftrag.QtySched;
+            avm.Nummer = z.Auftrag.Nummer;
+            zv.Auftrag = avm;
+            ArbeitsvorgangViewModel abvm = new ArbeitsvorgangViewModel();
+            abvm.ArbeitsvorgangId = z.Arbeitsvorgang.ArbeitsvorgangId;
+            abvm.ArbeitsvorgangName = z.Arbeitsvorgang.ArbeitsvorgangName;
+            abvm.Aktiv = z.Arbeitsvorgang.Aktiv;
+            zv.Arbeitsvorgang = abvm;
+            ProduktionsstrasseViewModel pvm = new ProduktionsstrasseViewModel();
+            pvm.Aktiv = z.Produktionsstrasse.Aktiv;
+            pvm.Beschreibung = z.Produktionsstrasse.Beschreibung;
+            pvm.ProduktionsstrasseId = z.Produktionsstrasse.ProduktionsstrasseId;
+            zv.Produktionsstrasse = pvm;
+            return zv;
+        }
+
+
         // POST: api/Zeiterfassung
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

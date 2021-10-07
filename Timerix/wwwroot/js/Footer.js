@@ -18,6 +18,10 @@ function initFooter(seite) {
                     ausgabe();
                 } else if (seite == "vorgangWechseln") {
                     ausgabe();
+                } else if (seite == "auswahlZeiterfassung") {
+                    tabelle();
+                } else if (seite == "zeitBearbeiten") {
+                    initFelder();
                 }
                 return mitarbeiter;
             } else {

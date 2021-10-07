@@ -72,5 +72,19 @@ namespace Timerix.Controllers
             return Content(data);
         }
 
+        [HttpGet("zeitId/{zid}")]
+        public IActionResult SaveToSessionZeiterfassung(String zid)
+        {
+            HttpContext.Session.SetString("zeit_id", zid);
+            return Content($"{zid} save to session");
+        }
+
+        [HttpGet("zeitId")]
+        public IActionResult FetchFromSessionZeiterfassung()
+        {
+            string zid = HttpContext.Session.GetString("zeit_id");
+            return Content(zid);
+        }
+
     }
 }

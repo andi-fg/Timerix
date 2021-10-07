@@ -101,7 +101,3 @@ function dauer() {
             window.setTimeout("dauer()", 1000);
         });
 }
-
-function auftragsdetails() {
-    window.location = "auftragsdetails.html";
-}

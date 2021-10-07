@@ -32,5 +32,13 @@ function zurueck(id) {
     }
     else if (id == 4) {
         window.location = "auftragsdetails.html";
+    } else if (id == 5) {
+        window.location = "auswahlZeiterfassung.html";
     }
+}
+function auftragsdetails() {
+    window.location = "auftragsdetails.html";
+}
+function auswahlZeiterfassung() {
+    window.location = "auswahlZeiterfassung.html";
 }

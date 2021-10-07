@@ -7,6 +7,7 @@
     <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-grid.css" rel="stylesheet" />
     <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-reboot.css" rel="stylesheet" />
     <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-utilities.css" rel="stylesheet" />
+    <link href="css/table.css" rel="stylesheet" />
 </head>
 <body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -14,7 +15,7 @@
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item active">
-                        <img src="bilder/pfeil.png" onclick="zurueck(1)" />
+                        <img src="bilder/pfeil.png" onclick="zurueck(5)" />
                     </li>
                     <li class="nav-item">
                         <img src="bilder/logout.png" onclick="logout()" />
@@ -28,7 +29,7 @@
             <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <img src="bilder/logo.png"  />
+                        <img src="bilder/logo.png" />
                     </li>
                 </ul>
             </div>
@@ -38,56 +39,65 @@
     <div class="container" style="text-align:center">
         <div>
             <br />
-            <h1>Auftragsoptionen</h1>
+            <h1>Zeiterfassung bearbeiten</h1>
         </div>
         <br />
-        <div class="row" style="font-size: 20px">
-            <div class="col">
-                <div class="row-fluid">
-                    <div class="col-6 offset-3 form-text" style="color:black; font-size:20px">
-                        Bitte scannen Sie die Linie hier:
-                    </div>
-                    <br />
-                    <div class="col-8 offset-2">
-                        <input id="pid" style="font-size: 35px; font-weight: bold; height: 90px;" class="form-control" />
-                    </div>
-                    <br />
-                </div>
-                <div class="row-fluid">
-                    <div class="col-6 offset-3 form-text" style="color:black; font-size:20px">
-                        Bitte scannen Sie den Auftrag hier:
-                    </div>
-                    <br />
-                    <div class="col-8 offset-2">
-                        <input id="aid" style="font-size: 35px; font-weight: bold; height: 90px;" class="form-control" />
-                    </div>
-                    <br />
-                </div>
+        <p>Bitte tragen Sie die gewünschten Korrekturen ein und bestätigen diese mit Speichern:</p>
+        <br />
+        <div class="row">
+            <div class="col-3 offset-3">
+                <p class="text-center fs-4">Auftrag:</p>
             </div>
-            <div class="col">
-                <div class="row-fluid">
-                    <div class="col-6 offset-3 form-text" style="color:black; font-size:20px">
-                        Arbeitsvorgang
-                    </div>
-                    <br />
-                    <div class="col-8 offset-2">
-                        <select id="arbeitsvorgangSelect" class="form-select" style="height:90px; font-size:25px; text-align:center;" onchange="">
-                        </select>
-                    </div>
-                    <br />
-                </div>
-                <div class="row-fluid">
-                    <div class="col-6 offset-3 form-text" style="color:black; font-size:20px">
-                       
-                    </div>
-                    <br />
-                    <div class="col-8 offset-2" style="margin-top:33px">
-                        <button class="btn btn-secondary form-control" style="height:90px; font-weight:bold" onclick="auftragInitialisieren()">OK</button>
-                    </div>
-                    <br />
-                </div>
+            <div class="col-3">
+                <input id="aid" class="form-control fs-4" />
             </div>
         </div>
+        <br />
+        <div class="row">
+            <div class="col-3 offset-3">
+                <p class="text-center fs-4">Linie:</p>
+            </div>
+            <div class="col-3">
+                <input id="pid" class="form-control fs-4" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-3 offset-3">
+                <p class="text-center fs-4">Arbeitsvorgang:</p>
+            </div>
+            <div class="col-3">
+                <select id="arbeitsvorgangSelect" class="form-select fs-4" style=" text-align:center;" onchange="">
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-3 offset-3">
+                <p class="text-center fs-4">Von:</p>
+            </div>
+            <div class="col-3">
+                <input id="von" class="form-control fs-4" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-3 offset-3">
+                <p class="text-center fs-4">Bis:</p>
+            </div>
+            <div class="col-3">
+                <p class="text-center fs-4" id="bis"></p>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-4 offset-4">
+                <button class="btn btn-success form-control" style="height:70px; font-weight:bold" onclick="speichern()">Speichern</button>
+            </div>
+        </div>
+        <br />
+        <p class="text-center fs-6" id="error" style="color:red"></p>
+        <br />
     </div>
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container-fluid">
@@ -104,7 +114,7 @@
             </div>
             <div class="row">
                 <div style="text-align:left" class="col p-4" id="mitDaten">
-                    Test
+                    
                 </div>
                 <div style="text-align:right" class="p-4 col" id="zeit">
 
@@ -118,7 +128,7 @@
     <script src="js/Uhrzeit.js"></script>
     <script src="js/Session.js"></script>
     <script src="js/Navigation.js"></script>
-    <script src="js/NeuerAuftrag.js"></script>
+    <script src="js/zeiterfassungBearbeiten.js"></script>
     <script src="lib/bootstrap-5.1.0-dist/js/bootstrap.js"></script>
     <script>
         isMitId();
