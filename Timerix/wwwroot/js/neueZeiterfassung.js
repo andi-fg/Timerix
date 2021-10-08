@@ -1,33 +1,9 @@
 ﻿var mitarbeiter;
-var zid 
+var zid
 init();
 function init() {
-    mitarbeiter = initFooter("zeitBearbeiten");
-}
-function initFelder() {
-    var uri = "session/zeitId"
-    fetch(uri)
-        .then(response => response.text())
-        .then(data => {
-            zid=data
-            getZeiterfassung();
-        });
-}
-function getZeiterfassung() {
-    var uri = "api/zeiterfassung/zeiterfassungenBearbeiten/" + zid
-    fetch(uri)
-        .then(response => response.json())
-        .then(data => {
-            ausgabe(data);
-            //alert(JSON.stringify(data))
-        });
-}
-function ausgabe(data) {
-    document.getElementById("aid").value = data.auftrag.auftragId
-    document.getElementById("pid").value = data.produktionsstrasse.produktionsstrasseId
-    document.getElementById("von").value = getZeit(new Date(data.zeitVon))
-    document.getElementById("bis").value = getZeit(new Date(data.zeitBis))
-    fetchArbeitsvorgang();
+    mitarbeiter = initFooter();
+    fetchArbeitsvorgang()
 }
 function fetchArbeitsvorgang() {
     var uri = "api/Arbeitsvorgang";
@@ -47,16 +23,6 @@ function initSelectArbeitsvorgang(data) {
         sel.add(opt, null);
     })
 }
-function getZeit(date) {
-    var tag = ((date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate()))
-    var monat = ((date.getMonth().toString().length + 1 > 1) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1)));
-    var jahr = date.getFullYear();
-    var stunden = ((date.getHours().toString().length > 1) ? date.getHours() : ('0' + date.getHours()));
-    var minuten = ((date.getMinutes().toString().length > 1) ? date.getMinutes() : ('0' + date.getMinutes()));
-    var sekunden = ((date.getSeconds().toString().length > 1) ? date.getSeconds() : ('0' + date.getSeconds()));
-    return tag + "/" + monat + "/" + jahr + " " + stunden + ":" + minuten + ":" + sekunden;
-}
-
 function speichern() {
     var pid = document.getElementById("pid").value;
     var aid = document.getElementById("aid").value;
@@ -93,31 +59,31 @@ function speichern() {
                         dataProd,
                         dataAuftrag
                     };
-                    updateZeiterfassung(output);
+                    addZeiterfassung(output);
                 })
                 .catch(error => {
                     document.getElementById("error").innerHTML = "Auftrag wurde nicht gefunden"
                     console.error('Auftrag wurde nicht gefunden.', error)
                 });
-
-
         })
         .catch(error => {
             document.getElementById("error").innerHTML = "Strasse wurde nicht gefunden."
             console.error('Strasse wurde nicht gefunden.', error)
         });
 }
-function updateZeiterfassung(output) {
-    var uriZeit = "api/zeiterfassung/" + zid;
-    fetch(uriZeit)
+function addZeiterfassung(output) {
+    var uriMitarbeiter = "api/mitarbeiter/" + mitarbeiter.mitarbeiterId;
+    fetch(uriMitarbeiter)
         .then(response => response.json())
         .then(data => {
-            data.auftragId = output.dataAuftrag.auftragId
-            data.auftrag = output.dataAuftrag;
-            data.produktionsstrasseId = output.dataProd.produktionsstrasseId
-            data.produktionsstrasse = output.dataProd;
-            data.arbeitsvorgangId = output.aVorgang.arbeitsvorgangId;
-            data.arbeitsvorgang = output.aVorgang;
+            var zeiterfassung = {};
+            zeiterfassung.mitarbeiter = data;
+            zeiterfassung.auftragId = output.dataAuftrag.auftragId
+            zeiterfassung.auftrag = output.dataAuftrag;
+            zeiterfassung.produktionsstrasseId = output.dataProd.produktionsstrasseId
+            zeiterfassung.produktionsstrasse = output.dataProd;
+            zeiterfassung.arbeitsvorgangId = output.aVorgang.arbeitsvorgangId;
+            zeiterfassung.arbeitsvorgang = output.aVorgang;
             var dVon = document.getElementById("von").value;
             var dBis = document.getElementById("bis").value;
             try {
@@ -128,28 +94,28 @@ function updateZeiterfassung(output) {
                     throw new Error();
                 }
                 datumBis.setHours(datumBis.getHours() + 2);
-                data.zeitVon = datumVon;
-                data.zeitBis = datumBis;
+                zeiterfassung.zeitVon = datumVon;
+                zeiterfassung.zeitBis = datumBis;
                 if (datumVon > datumBis) {
                     throw new Error();
                 }
-                if (isNaN(data.zeitBis.getTime())) {
+                if (isNaN(zeiterfassung.zeitBis.getTime())) {
                     document.getElementById("error").innerHTML = "Fehler bei Zeitformat bei von: dd/mm/yyyy hh/mm/ss";
                 } else {
-                    var uriUp = "api/zeiterfassung/" + zid;
+                    var uriUp = "api/zeiterfassung";
                     fetch(uriUp, {
-                        method: 'PUT',
+                        method: 'POST',
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(data)
+                        body: JSON.stringify(zeiterfassung)
                     })
                         .then(response => {
                             if (response.status == 400) {
                                 throw new Error("HTTP status " + response.status);
                             } else {
-                                window.location = "auswahlZeiterfassung.html";
+                               window.location = "auswahlZeiterfassung.html";
 
                             }
                         })
@@ -162,13 +128,14 @@ function updateZeiterfassung(output) {
             } catch {
                 document.getElementById("error").innerHTML = "Zeit von darf nicht grösser als Zeit bis sein und bis nicht grösser als die aktuelle Uhrzeit sein"
             }
-            
+
             //alert(datumBis);
             //var s = new Date(datumVon).toISOString().slice(0, 19).replace('T', ' ')
             //alert(s);
-            
-            //alert(JSON.stringify(data));
+
+            //alert(JSON.stringify(zeiterfassung));
         });
+
 }
 function strToDate(dtStr) {
     if (!dtStr) return null

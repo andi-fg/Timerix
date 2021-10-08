@@ -7,6 +7,7 @@
     <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-grid.css" rel="stylesheet" />
     <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-reboot.css" rel="stylesheet" />
     <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-utilities.css" rel="stylesheet" />
+    <link href="css/table.css" rel="stylesheet" />
 </head>
 <body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -14,7 +15,7 @@
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item active">
-                        <img src="bilder/pfeil.png" onclick="zurueck(3)" />
+                        <img src="bilder/pfeil.png" onclick="zurueck(1)" />
                     </li>
                     <li class="nav-item">
                         <img src="bilder/logout.png" onclick="logout()" />
@@ -35,60 +36,34 @@
         </div>
     </nav>
 
-    <div class="container-fluid" style="text-align:center">
+    <div class="container" style="text-align:center">
         <div>
             <br />
-            <h1>Auftragsdetails</h1>
+            <h1>Mitarbeiter</h1>
         </div>
         <br />
         <div class="row">
-            <div class="col-3 offset-3">
-                <p class="text-center fs-4">Mitarbeiter:</p>
-            </div>
             <div class="col-3">
-                <p class="text-center fw-bold fs-4" id="mid"></p>
+                <button type="button" class="btn btn-secondary form-control" style="height:40px" onclick="">neu</button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-3 offset-3">
-                <p class="text-center fs-4">Linie:</p>
-            </div>
-            <div class="col-3">
-                <p class="text-center fw-bold fs-4" id="pid"></p>
-            </div>
+        <br />
+        <div class="row-fluid table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Vorname</th>
+                        <th scope="col">Geburtsdatum</th>
+                        <th scope="col">Abteilung</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelle">
+                </tbody>
+            </table>
         </div>
-        <div class="row">
-            <div class="col-3 offset-3">
-                <p class="text-center fs-4">Auftrag:</p>
-            </div>
-            <div class="col-3">
-                <p class="text-center fw-bold fs-4" id="aid"></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3 offset-3">
-                <p class="text-center fs-4">Arbeitsvorgang:</p>
-            </div>
-            <div class="col-3">
-                <p class="text-center fw-bold fs-4" id="av"></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3 offset-3">
-                <p class="text-center fs-4">Auftragsdauer:</p>
-            </div>
-            <div class="col-3">
-                <p class="text-center fw-bold fs-4" id="dauer"></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3 offset-3">
-                <button class="btn btn-danger form-control" style="height:70px; font-weight:bold" onclick="auftragBeenden()">Auftrag beenden</button>
-            </div>
-            <div class="col-3">
-                <button class="btn btn-secondary form-control" style="height:70px; font-weight:bold" onclick="vorgangWechseln()">Arbeitsvorgang ändern</button>
-            </div>
-        </div>
+        <br />
     </div>
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container-fluid">
@@ -105,7 +80,7 @@
             </div>
             <div class="row">
                 <div style="text-align:left" class="col p-4" id="mitDaten">
-
+                    Test
                 </div>
                 <div style="text-align:right" class="p-4 col" id="zeit">
 
@@ -119,7 +94,7 @@
     <script src="js/Uhrzeit.js"></script>
     <script src="js/Session.js"></script>
     <script src="js/Navigation.js"></script>
-    <script src="js/auftragsdetails.js"></script>
+    <script src="js/mitarbeiterUeber.js"></script>
     <script src="lib/bootstrap-5.1.0-dist/js/bootstrap.js"></script>
     <script>
         isMitId();

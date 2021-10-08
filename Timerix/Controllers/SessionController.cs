@@ -85,6 +85,19 @@ namespace Timerix.Controllers
             string zid = HttpContext.Session.GetString("zeit_id");
             return Content(zid);
         }
+        [HttpGet("mitBearbeitenId/{mid}")]
+        public IActionResult SaveToSessionMitarbeiterBearbeite(String mid)
+        {
+            HttpContext.Session.SetString("mitBearbeiten_id", mid);
+            return Content($"{mid} save to session");
+        }
+
+        [HttpGet("mitBearbeitenId")]
+        public IActionResult FetchFromSessionMitarbeiterBearbeiten()
+        {
+            string mit = HttpContext.Session.GetString("mitBearbeiten_id");
+            return Content(mit);
+        }
 
     }
 }

@@ -34,6 +34,8 @@ function zurueck(id) {
         window.location = "auftragsdetails.html";
     } else if (id == 5) {
         window.location = "auswahlZeiterfassung.html";
+    } else if (id == 6) {
+        window.location = "mitarbeiterUebersicht.html";
     }
 }
 function auftragsdetails() {
@@ -41,4 +43,7 @@ function auftragsdetails() {
 }
 function auswahlZeiterfassung() {
     window.location = "auswahlZeiterfassung.html";
+}
+function mitarbeiterUeber() {
+    window.location = "mitarbeiterUebersicht.html";
 }

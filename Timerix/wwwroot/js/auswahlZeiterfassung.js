@@ -62,7 +62,7 @@ function machTabelle(data) {
 
 function getZeit(date) {
     var tag = ((date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate()))
-    var monat = ((date.getMonth().toString().length + 1> 1) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1)));
+    var monat = (((date.getMonth()+1).toString().length > 1) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1)));
     var jahr = date.getFullYear();
     var stunden = ((date.getHours().toString().length > 1) ? date.getHours() : ('0' + date.getHours()));
     var minuten = ((date.getMinutes().toString().length > 1) ? date.getMinutes() : ('0' + date.getMinutes()));
@@ -83,4 +83,7 @@ function zeiterfassungBearbeiten(zid) {
             window.location = "zeiterfassungBearbeiten.html";
         });
    // alert(zid);
+}
+function neueZeiterfassung() {
+    window.location = "neueZeiterfassung.html"
 }

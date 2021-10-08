@@ -36,7 +36,7 @@
         </div>
     </nav>
 
-    <div class="container" style="text-align:center">
+    <div class="container-fluid" style="text-align:center">
         <div>
             <br />
             <h1>Zeiterfassung bearbeiten</h1>
@@ -45,48 +45,48 @@
         <p>Bitte tragen Sie die gewünschten Korrekturen ein und bestätigen diese mit Speichern:</p>
         <br />
         <div class="row">
-            <div class="col-3 offset-3">
+            <div class="col-3 offset-2">
                 <p class="text-center fs-4">Auftrag:</p>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <input id="aid" class="form-control fs-4" />
             </div>
         </div>
         <br />
         <div class="row">
-            <div class="col-3 offset-3">
+            <div class="col-3 offset-2">
                 <p class="text-center fs-4">Linie:</p>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <input id="pid" class="form-control fs-4" />
             </div>
         </div>
         <br />
         <div class="row">
-            <div class="col-3 offset-3">
+            <div class="col-3 offset-2">
                 <p class="text-center fs-4">Arbeitsvorgang:</p>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <select id="arbeitsvorgangSelect" class="form-select fs-4" style=" text-align:center;" onchange="">
                 </select>
             </div>
         </div>
         <br />
         <div class="row">
-            <div class="col-3 offset-3">
+            <div class="col-3 offset-2">
                 <p class="text-center fs-4">Von:</p>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <input id="von" class="form-control fs-4" />
             </div>
         </div>
         <br />
         <div class="row">
-            <div class="col-3 offset-3">
+            <div class="col-3 offset-2">
                 <p class="text-center fs-4">Bis:</p>
             </div>
-            <div class="col-3">
-                <p class="text-center fs-4" id="bis"></p>
+            <div class="col-4">
+                <input id="bis" class="form-control fs-4" />
             </div>
         </div>
         <br />
@@ -103,7 +103,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-2">
-                    <button id="mitButton" type="button" class="btn btn-secondary form-control" style="height:40px;font-size:13px; margin-right: 2px" hidden>Mitarbeiter</button>
+                    <button id="mitButton" type="button" onclick="mitarbeiterUeber()" class="btn btn-secondary form-control" style="height:40px;font-size:13px; margin-right: 2px" hidden>Mitarbeiter</button>
                 </div>
                 <div class="col-2">
                     <button id="tagesrapport" type="button" class="btn btn-secondary form-control" style="height: 40px; font-size: 13px; " hidden>Tagesrapport</button>

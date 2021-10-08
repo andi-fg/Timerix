@@ -251,6 +251,10 @@ namespace Timerix.Controllers
         [HttpPost]
         public async Task<ActionResult<Zeiterfassung>> PostZeiterfassung(Zeiterfassung zeiterfassung)
         {
+            _context.Entry(zeiterfassung.Mitarbeiter).State = EntityState.Unchanged;
+            _context.Entry(zeiterfassung.Produktionsstrasse).State = EntityState.Unchanged;
+            _context.Entry(zeiterfassung.Auftrag).State = EntityState.Unchanged;
+            _context.Entry(zeiterfassung.Arbeitsvorgang).State = EntityState.Unchanged;
             _context.Zeiterfassung.Add(zeiterfassung);
             await _context.SaveChangesAsync();
 
