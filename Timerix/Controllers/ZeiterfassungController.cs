@@ -76,7 +76,7 @@ namespace Timerix.Controllers
         [HttpGet("aktuelleZeiterfassung/{mid}")]
         public async Task<ActionResult<Zeiterfassung>> GetAktuelleZeiterfassung(int mid)
         {
-            var zeiterfassung =  _context.Zeiterfassung.Where(zeit => zeit.ZeitBis == null && zeit.Mitarbeiter.MitarbeiterId == mid).FirstOrDefault();
+            var zeiterfassung =  _context.Zeiterfassung.Where(zeit => zeit.ZeitBis == null && zeit.MitarbeiterId == mid).FirstOrDefault();
 
             if (zeiterfassung == null)
             {
@@ -119,13 +119,12 @@ namespace Timerix.Controllers
            
             _context.Entry(zeiterfassung).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
         public async Task<IActionResult> endZeiterfassung(Zeiterfassung zeiterfassung)
         {
             //Beende aktuelle Zeiterfassung
-            Zeiterfassung z = _context.Zeiterfassung.Where(zeit => zeit.ZeitBis == null && zeit.Mitarbeiter.MitarbeiterId == zeiterfassung.Mitarbeiter.MitarbeiterId).FirstOrDefault();
+            Zeiterfassung z = _context.Zeiterfassung.Where(zeit => zeit.ZeitBis == null && zeit.MitarbeiterId == zeiterfassung.Mitarbeiter.MitarbeiterId).FirstOrDefault();
             if (z == null)
             {
                 return NoContent();
@@ -136,7 +135,7 @@ namespace Timerix.Controllers
             _context.Entry(z.Auftrag).State = EntityState.Unchanged;
             _context.Entry(z.Arbeitsvorgang).State = EntityState.Unchanged;*/
             _context.Entry(z).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            //_context.SaveChanges();
 
             return NoContent();
         }
@@ -203,6 +202,7 @@ namespace Timerix.Controllers
             }
             return lzvm;
         }
+        //Get Zeiterfassung um zu bearbeiten
         // GET: api/Zeiterfassung/5
         [HttpGet("zeiterfassungenBearbeiten/{id}")]
         public async Task<ActionResult<ZeiterfassungViewModel>> GetZeiterfassungBearbeiten(int id)
@@ -244,7 +244,6 @@ namespace Timerix.Controllers
             zv.Produktionsstrasse = pvm;
             return zv;
         }
-
 
         // POST: api/Zeiterfassung
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
