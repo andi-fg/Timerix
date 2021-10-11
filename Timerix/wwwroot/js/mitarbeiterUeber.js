@@ -59,3 +59,6 @@ function getZeit(date) {
    
     return tag + "/" + monat + "/" + jahr;
 }
+function mitarbeiterNeu() {
+    window.location = "mitarbeiterNeu.html"
+}
