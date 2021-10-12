@@ -15,7 +15,7 @@
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item active">
-                        <img src="bilder/pfeil.png" onclick="zurueck(6)" />
+                        <img src="bilder/pfeil.png" onclick="zurueck(1)" />
                     </li>
                     <li class="nav-item">
                         <img src="bilder/logout.png" onclick="logout()" />
@@ -39,83 +39,30 @@
     <div class="container" style="text-align:center">
         <div>
             <br />
-            <h1>Mitarbeiter</h1>
+            <h1>Tagesrapport</h1>
         </div>
         <br />
-        <div class="row">
-            <div class="col-3">
-                <p class="text-center fs-6">Mitarbeiternummer*:</p>
-            </div>
-            <div class="col-3">
-                <input id="mid" class="form-control fs-6" disabled />
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-3">
-                <p class="text-center fs-6">Nachname*:</p>
-            </div>
-            <div class="col-3">
-                <input id="name" class="form-control fs-6" />
-            </div>
-            <div class="col-3">
-                <p class="text-center fs-6">Vorname*:</p>
-            </div>
-            <div class="col-3">
-                <input id="vorname" class="form-control fs-6" />
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-3">
-                <p class="text-center fs-6">Geburtsdatum*:</p>
-            </div>
-            <div class="col-3">
-                <input id="datum" class="form-control fs-6" placeholder="dd/mm/yyyy" />
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-3">
-                <p class="text-center fs-6">Abteilung*:</p>
-            </div>
-            <div class="col-3">
-                <input id="abt" class="form-control fs-6" />
-            </div>
-            <div class="col-3">
-                <p class="text-center fs-6">Mandant:</p>
-            </div>
-            <div class="col-3">
-                <input id="mandant" class="form-control fs-6" disabled />
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-3">
-                <p class="text-center fs-6">Bereich:</p>
-            </div>
-            <div class="col-3">
-                <input id="bereich" class="form-control fs-6" />
-            </div>
-            <div class="col-3">
-                <p class="text-center fs-6">Aktiv:</p>
-            </div>
-            <div class="col-3">
-                <input class="form-check-input" type="checkbox" value="" id="aktiv">
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-3">
-                <p class="text-center form-text fs-6" id="" style="">Alle Felder mit * sind Pflichtfelder</p>
-            </div>
-        </div>
         <div class="row">
             <div class="col-4 offset-4">
-                <button class="btn btn-success form-control" style="height:70px; font-weight:bold" onclick="speichern()">Speichern</button>
+                <input type="date" class="form-control" style="height: 70px; font-size: 25px; text-align:center" id="datePicker" onchange="getRapport()" />
             </div>
         </div>
-        <br />
+        <div class="row-fluid table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Auftrag</th>
+                        <th scope="col">Auftrag ID</th>
+                        <th scope="col">Linie</th>
+                        <!-- <th scope="col">Zeit</th>-->
+                        <th scope="col">Anzahl</th>
+                        <th scope="col">Bemerkung</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelle">
+                </tbody>
+            </table>
+        </div>
         <p class="text-center fs-6" id="error" style="color:red"></p>
         <br />
     </div>
@@ -126,7 +73,7 @@
                     <button id="mitButton" type="button" onclick="mitarbeiterUeber()" class="btn btn-secondary form-control" style="height:40px;font-size:13px; margin-right: 2px" hidden>Mitarbeiter</button>
                 </div>
                 <div class="col-2">
-                    <button id="tagesrapport" type="button" class="btn btn-secondary form-control" style="height: 40px; font-size: 13px; " onclick="showTagesrapport()" hidden>Tagesrapport</button>
+                    <button id="tagesrapport" type="button" class="btn btn-secondary form-control" style="height: 40px; font-size: 13px;" onclick="showTagesrapport()" hidden>Tagesrapport</button>
                 </div>
                 <div class="col-2">
                     <button id="import" type="button" class="btn btn-secondary form-control" style="height: 40px; font-size: 13px; " hidden>Import</button>
@@ -145,10 +92,9 @@
 
     </footer>
     <script src="js/Footer.js"></script>
-    <script src="js/Uhrzeit.js"></script>
     <script src="js/Session.js"></script>
     <script src="js/Navigation.js"></script>
-    <script src="js/mitarbeiterNeu.js"></script>
+    <script src="js/tagesrapport.js"></script>
     <script src="lib/bootstrap-5.1.0-dist/js/bootstrap.js"></script>
     <script>
         isMitId();

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Timerix.Models;
+using Timerix.Models.ViewModels;
 
 namespace Timerix.Controllers
 {
@@ -40,6 +42,50 @@ namespace Timerix.Controllers
 
             return tagesrapport;
         }
+
+        // GET: alle Tagesrapporte vom tag
+        //https://localhost:44339/api/tagesrapport/datum?datum=2021-10-11T00:00:00.000Z
+        [HttpGet("datum")]
+        public async Task<ActionResult<IEnumerable<TagesrapportViewModel>>> GetDatumTagesrapport(string datum)
+        {
+            var cultureInfo = new CultureInfo("de-DE");
+            var date = DateTime.Parse(datum, cultureInfo);
+            var tagesrapport =  _context.Tagesrapport
+                .Where(tag => tag.Datum == date.Date)
+                .Include(tag => tag.Auftrag)
+                .Include(tag => tag.Produktionsstrasse)
+                .ToList();
+
+            if (tagesrapport == null)
+            {
+                return NotFound();
+            }
+            List<TagesrapportViewModel> tvml = new List<TagesrapportViewModel>();
+            foreach(Tagesrapport t in tagesrapport)
+            {
+                TagesrapportViewModel tvm = new TagesrapportViewModel();
+                tvm.Datum = t.Datum;
+                tvm.Bemerkung = t.Bemerkung;
+                tvm.Anzahl = t.Anzahl;
+                tvm.AuftragId = t.AuftragId;
+                tvm.ProduktionsstrasseId = t.ProduktionsstrasseId;
+                AuftragViewModel avm = new AuftragViewModel();
+                avm.AuftragId = t.Auftrag.AuftragId;
+                avm.Beschreibung = t.Auftrag.Beschreibung;
+                avm.ItemId = t.Auftrag.ItemId;
+                avm.QtySched = t.Auftrag.QtySched;
+                avm.Nummer = t.Auftrag.Nummer;
+                tvm.Auftrag = avm;
+                ProduktionsstrasseViewModel pvm = new ProduktionsstrasseViewModel();
+                pvm.Aktiv = t.Produktionsstrasse.Aktiv;
+                pvm.Beschreibung = t.Produktionsstrasse.Beschreibung;
+                pvm.ProduktionsstrasseId = t.Produktionsstrasse.ProduktionsstrasseId;
+                tvm.Produktionsstrasse = pvm;
+                tvml.Add(tvm);
+            }
+            return tvml;
+        }
+
 
         // PUT: api/Tagesrapport/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

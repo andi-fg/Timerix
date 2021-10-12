@@ -52,8 +52,8 @@ namespace Timerix.Controllers
             {
                 return BadRequest();
             }
+            updateTagesrapport(zeiterfassung, id);
             _context.Entry(zeiterfassung).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -72,6 +72,39 @@ namespace Timerix.Controllers
 
             return NoContent();
         }
+        //Überprüfe tagesrapport, wenn Zeiterfassung geändert wird
+        private void updateTagesrapport(Zeiterfassung zeiterfassung, int id)
+        {
+            var zeiterfassungAlt =  _context.Zeiterfassung.Where(zeit => zeit.ZeiterfassungId == id).FirstOrDefault();
+            if(zeiterfassungAlt.ZeitVon.Date != zeiterfassung.ZeitVon.Date || zeiterfassungAlt.ProduktionsstrasseId != zeiterfassung.ProduktionsstrasseId || zeiterfassungAlt.AuftragId != zeiterfassung.AuftragId)
+            {
+                //Tagesrapport überprüfen ob der Rapport für die Alte Zeiterfassung gelöscht werden kann
+                var anzahlZeiterfassungenAlt = _context.Zeiterfassung
+                    .Where(zeit => zeit.AuftragId == zeiterfassungAlt.AuftragId && zeit.ProduktionsstrasseId == zeiterfassungAlt.ProduktionsstrasseId && zeit.ZeitVon.Date == zeiterfassungAlt.ZeitVon.Date)
+                    .Count();
+                if(anzahlZeiterfassungenAlt == 1)
+                {
+                    //Tagesrapport löschen
+                    var rapport = _context.Tagesrapport.Where(tag => tag.AuftragId == zeiterfassungAlt.AuftragId && tag.ProduktionsstrasseId == zeiterfassungAlt.ProduktionsstrasseId && tag.Datum <= zeiterfassungAlt.ZeitVon && tag.Datum.AddDays(1) >= zeiterfassungAlt.ZeitVon).FirstOrDefault();
+                    _context.Tagesrapport.Remove(rapport);
+                }
+                //Tagesrapport überprüfen ob es für die abgeänderte Zeiterfassung einen neuen braucht
+                var anzahlZeiterfassungen = _context.Zeiterfassung
+                    .Where(zeit => zeit.AuftragId == zeiterfassung.AuftragId && zeit.ProduktionsstrasseId == zeiterfassung.ProduktionsstrasseId && zeit.ZeitVon.Date == zeiterfassung.ZeitVon.Date)
+                    .Count();
+                if(anzahlZeiterfassungen < 1)
+                {
+                    //Neuer Tagesrapport erstellen
+                    _context.Entry(zeiterfassung.Auftrag).State = EntityState.Unchanged;
+                    _context.Entry(zeiterfassung.Produktionsstrasse).State = EntityState.Unchanged;
+                    _context.Entry(zeiterfassung.Arbeitsvorgang).State = EntityState.Unchanged;
+                    _ = addTagesrapport(zeiterfassung);
+                }
+                _context.Entry(zeiterfassungAlt).State = EntityState.Detached;
+            }
+            
+        }
+
         //Aktuelle Zeiterfassung bekommen
         [HttpGet("aktuelleZeiterfassung/{mid}")]
         public async Task<ActionResult<Zeiterfassung>> GetAktuelleZeiterfassung(int mid)
@@ -116,7 +149,7 @@ namespace Timerix.Controllers
             //Beende aktuelle Zeiterfassung
            
             zeiterfassung.ZeitBis = DateTime.Now;
-           
+            addTagesrapport(zeiterfassung);
             _context.Entry(zeiterfassung).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return NoContent();
@@ -130,6 +163,7 @@ namespace Timerix.Controllers
                 return NoContent();
             }
             z.ZeitBis = DateTime.Now;
+            addTagesrapport(z);
             /*_context.Entry(z.Mitarbeiter).State = EntityState.Unchanged;
             _context.Entry(z.Produktionsstrasse).State = EntityState.Unchanged;
             _context.Entry(z.Auftrag).State = EntityState.Unchanged;
@@ -137,6 +171,28 @@ namespace Timerix.Controllers
             _context.Entry(z).State = EntityState.Modified;
             //_context.SaveChanges();
 
+            return NoContent();
+        }
+        //Tagesrapport speichern
+        private async Task<IActionResult> addTagesrapport(Zeiterfassung zeiterfassung)
+        {
+            //DateTime today = DateTime.Today;
+            Tagesrapport t = _context.Tagesrapport.Where(tag => tag.AuftragId == zeiterfassung.AuftragId && tag.ProduktionsstrasseId == zeiterfassung.ProduktionsstrasseId && tag.Datum <= zeiterfassung.ZeitVon && tag.Datum.AddDays(1) >= zeiterfassung.ZeitVon).FirstOrDefault();
+            if (t != null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                Tagesrapport tr = new Tagesrapport();
+                DateTime rapportTime = zeiterfassung.ZeitVon.Date;
+                tr.Auftrag = zeiterfassung.Auftrag;
+                tr.AuftragId = zeiterfassung.AuftragId;
+                tr.ProduktionsstrasseId = zeiterfassung.ProduktionsstrasseId;
+                tr.Produktionsstrasse = zeiterfassung.Produktionsstrasse;
+                tr.Datum = rapportTime;
+                _context.Tagesrapport.Add(tr);
+            }
             return NoContent();
         }
 

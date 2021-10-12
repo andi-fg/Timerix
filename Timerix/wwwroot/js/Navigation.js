@@ -47,3 +47,7 @@ function auswahlZeiterfassung() {
 function mitarbeiterUeber() {
     window.location = "mitarbeiterUebersicht.html";
 }
+
+function showTagesrapport() {
+    window.location = "tagesrapport.html";
+}

@@ -70,9 +70,17 @@ function getZeit(date) {
     return tag + "/" + monat + "/" + jahr + " " + stunden + ":" + minuten + ":" + sekunden;
 }
 function getDauer(date) {
-    var stunden = ((date.getHours().toString().length> 1) ? date.getHours() : ('0' + date.getHours())) -1 ;
+    var jahr = date.getFullYear() - 1970;
+    var monat = date.getMonth() + jahr*12;
+    var tag = date.getDate() - 1 + monat * 30;
+    var stunden;
+    if (tag > 1) {
+        stunden = date.getHours() + 24 * tag;
+    } else {
+        stunden = ((date.getHours().toString().length > 1) ? date.getHours() : ('0' + date.getHours())) - 1;
+    }
     var minuten = ((date.getMinutes().toString().length > 1) ? date.getMinutes() : ('0' + date.getMinutes()));
-    return  stunden + ":" + minuten;
+    return stunden + ":" + minuten;
 }
 
 function zeiterfassungBearbeiten(zid) {
