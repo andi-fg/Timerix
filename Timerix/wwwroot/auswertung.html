@@ -15,10 +15,10 @@
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item active">
-                        <img src="bilder/pfeil.png"  />
+                        <img src="bilder/pfeil.png" onclick="zurueck(1)"/>
                     </li>
                     <li class="nav-item">
-                        <img src="bilder/logout.png"  onclick="logout()" />
+                        <img src="bilder/logout.png" onclick="logout()" />
                     </li>
 
                 </ul>
@@ -29,7 +29,7 @@
             <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <img src="bilder/logo.png"  />
+                        <img src="bilder/logo.png" />
                     </li>
                 </ul>
             </div>
@@ -39,70 +39,34 @@
     <div class="container" style="text-align:center">
         <div>
             <br />
-            <h1>Zeiterfassung</h1>
+            <h1>Menü Auswertung</h1>
         </div>
         <br />
-        <div class="row" style="text-align:center;">
-            <div class="col">
-                <div class="row">
-                    <div class="col-6 offset-3 form-text" style="color:black; font-size:25px">
-                        Laufender Auftrag
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="card fs-5" id="card">
-                        <div class="card-body">
-                            <p class="card-text" id="aid"></p>
-                            <p class="card-text" id="pid"></p>
-                            <p class="card-text" id="av"></p>
-                            <p class="card-text" id="dauer"></p>
-                        </div>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-4 offset-2">
+                <select id="pid" class="form-select" style=" height: 70px; font-size: 20px; text-align: center; font-weight: bold ">
+                </select>
             </div>
-            <div class="col">
-                <div class="row-fluid">
-                    <div class="col-6 offset-3">
-                        <button id="auftrag" type="button" class="btn btn-menu form-control" style="height: 70px; font-size: 20px; display:none" onclick="neuerAuftragWechsel()">Neuen Auftrag starten</button>
-                    </div>
-                    
-                </div>
-                <br />
-                <div class="row-fluid">
-                    <div class="col-6 offset-3">
-                        <button id="zeitAuswahl" type="button" class="btn btn-menu form-control" style="height: 70px; font-size: 20px; display: none " onclick="auswahlZeiterfassung()">Erfasste Zeit bearbeiten</button>
-                    </div>
-                    
-                </div>
-                <br />
-                <div class="row-fluid">
-                    <div class="col-6 offset-3">
-                        <button id="auswertung" type="button" class="btn btn-menu form-control" style="height: 70px; font-size: 20px; display: none " onclick="showAuswertung()">Auswertung</button>
-                    </div>
-                    
-                </div>
-                <div class="row-fluid">
-                    
-                        <div class="col-6 offset-3 form-text" style="color:black; font-size:20px">
-                            Standort:
-                        </div>
-
-                   
-                   <br />
-                </div>
-                <div class="row-fluid">
-                    <div class="col-6 offset-3">
-                        <select id="standortMenuSelect" class="form-select" style=" height:70px; font-size: 20px; text-align: center; " onchange="setMitStand()">
-                            <option value="0"></option>
-                        </select>
-                    </div>
-                    
-                    <br />
-                </div>
-
+            <div class="col-4">
+                <button class="btn btn-secondary form-control" style="height:70px; font-weight:bold" onclick="prodAuswertung()">Produktionsstrasse</button>
             </div>
         </div>
+        <br />
+        <div class="row">
+            <div class="col-4 offset-2">
+                <input id="aid" style="font-size: 20px; font-weight: bold; height: 70px;" class="form-control" />
+            </div>
+            <div class="col-4">
+                <button class="btn btn-secondary form-control" style="height:70px; font-weight:bold" onclick="auftragAuswertung()">Auftrag</button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-4 offset-4">
+                <button class="btn btn-secondary form-control" style="height:70px; font-weight:bold" onclick="auswertungGesamt()">Gesamtübersicht</button>
+            </div>
+        </div>
+        <br />
     </div>
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container-fluid">
@@ -119,7 +83,7 @@
             </div>
             <div class="row">
                 <div style="text-align:left" class="col p-4" id="mitDaten">
-                    
+
                 </div>
                 <div style="text-align:right" class="p-4 col" id="zeit">
 
@@ -132,7 +96,7 @@
     <script src="js/Footer.js"></script>
     <script src="js/Uhrzeit.js"></script>
     <script src="js/Session.js"></script>
-    <script src="js/Menu.js"></script>
+    <script src="js/auswertung.js"></script>
     <script src="js/Navigation.js"></script>
     <script src="lib/bootstrap-5.1.0-dist/js/bootstrap.js"></script>
     <script>

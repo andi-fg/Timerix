@@ -5,21 +5,8 @@
             window.location = "home.html";
         });
 }
-function neuerAuftragWechsel(mitStan) {
-    var uri = "session/mitStandort";
-    fetch(uri, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(mitStan)
-    })
-        .then(response => {
-            window.location = "neuerAuftrag.html";
-        })
-
-        .catch(error => console.error('Unable to add user.', error));
+function neuerAuftragWechsel() {
+    window.location = "neuerAuftrag.html";
 
 }
 function zurueck(id) {
@@ -37,6 +24,9 @@ function zurueck(id) {
     } else if (id == 6) {
         window.location = "mitarbeiterUebersicht.html";
     }
+    else if (id == 7) {
+        window.location = "auswertung.html";
+    }
 }
 function auftragsdetails() {
     window.location = "auftragsdetails.html";
@@ -50,4 +40,7 @@ function mitarbeiterUeber() {
 
 function showTagesrapport() {
     window.location = "tagesrapport.html";
+}
+function showAuswertung() {
+    window.location = "auswertung.html";
 }

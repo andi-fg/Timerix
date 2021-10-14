@@ -3,8 +3,19 @@ init();
 function init() {
     mitarbeiter = initFooter("menu");
 }
-
+function buttons() {
+    if (mitarbeiter.standortId == null) {
+        document.getElementById("auftrag").style.display = "none";
+        document.getElementById("auswertung").style.display = "none";
+        document.getElementById("zeitAuswahl").style.display = "none";
+    } else {
+        document.getElementById("auftrag").style.display = "block";
+        document.getElementById("auswertung").style.display = "block";
+        document.getElementById("zeitAuswahl").style.display = "block";
+    }
+}
 function fetchStandort() {
+    buttons()
     var uri = "api/standort";
     fetch(uri)
         .then(response => response.json())
@@ -32,6 +43,9 @@ function standortMenuSelect(data) {
 
 function setMitStand() {
     var stand = JSON.parse(document.getElementById('standortMenuSelect').value);
+    if (stand == 0) {
+        return;
+    }
     mitarbeiter.bezeichnung = stand.bezeichnung;
     mitarbeiter.standortId = stand.standortId;
     mitarbeiter.auftragPraefix = stand.auftragPraefix;
@@ -40,11 +54,23 @@ function setMitStand() {
     } else {
         document.getElementById("mitDaten").innerHTML = mitarbeiter.name + " " + mitarbeiter.vorname + " / MNr: " + mitarbeiter.mitarbeiterId + " / Standort: ";
     }
+    var uri = "session/mitStandort";
+    fetch(uri, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(mitarbeiter)
+    })
+        .then(response => {
+           
+        })
+
+        .catch(error => console.error('Unable to add user.', error));
+    buttons()
 }
 
-function neuerAuftrag() {
-    neuerAuftragWechsel(mitarbeiter);
-}
 
 function laufenderAuftrag() {
     var uri = "api/zeiterfassung/aktuelleZeiterfassung/" + mitarbeiter.mitarbeiterId;

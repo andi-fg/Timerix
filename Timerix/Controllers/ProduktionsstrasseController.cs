@@ -103,5 +103,19 @@ namespace Timerix.Controllers
         {
             return _context.Produktionsstrasse.Any(e => e.ProduktionsstrasseId == id);
         }
+
+        // GET: api/Produktionsstrasse/standort/5
+        [HttpGet("standort/{sid}")]
+        public async Task<ActionResult<IEnumerable<Produktionsstrasse>>> GetProduktionsstrassenStandort(int sid)
+        {
+            var produktionsstrasse = _context.Produktionsstrasse.Where(prod=> prod.StandortId == sid || prod.StandortId == null ).ToList();
+
+            if (produktionsstrasse == null)
+            {
+                return NotFound();
+            }
+
+            return produktionsstrasse;
+        }
     }
 }

@@ -22,6 +22,11 @@ function initFooter(seite) {
                     tabelle();
                 } else if (seite == "zeitBearbeiten") {
                     initFelder();
+                } else if (seite == "auswertung") {
+                    initProdSelect();
+                }
+                else if (seite == "ausGesamt") {
+                    ausTabelle();
                 }
                 return mitarbeiter;
             } else {

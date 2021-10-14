@@ -98,6 +98,32 @@ namespace Timerix.Controllers
             string mit = HttpContext.Session.GetString("mitBearbeiten_id");
             return Content(mit);
         }
+        [HttpGet("auftragId/{aid}")]
+        public IActionResult SaveToSessionAuftragId(String aid)
+        {
+            HttpContext.Session.SetString("auftrag_id", aid);
+            return Content($"{aid} save to session");
+        }
+
+        [HttpGet("auftragId")]
+        public IActionResult FetchFromSessionAuftragId()
+        {
+            string aid = HttpContext.Session.GetString("auftrag_id");
+            return Content(aid);
+        }
+        [HttpGet("prodId/{pid}")]
+        public IActionResult SaveToSessionProdId(String pid)
+        {
+            HttpContext.Session.SetString("prod_id", pid);
+            return Content($"{pid} save to session");
+        }
+
+        [HttpGet("prodId")]
+        public IActionResult FetchFromSessionProdId()
+        {
+            string pid = HttpContext.Session.GetString("prod_id");
+            return Content(pid);
+        }
 
     }
 }
