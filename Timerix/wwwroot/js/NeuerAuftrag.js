@@ -28,8 +28,9 @@ function auftragInitialisieren() {
     var pid = document.getElementById("pid").value;
     var aid = document.getElementById("aid").value;
     var aVorgang = JSON.parse(document.getElementById('arbeitsvorgangSelect').value);
-    var uriProd = "api/produktionsstrasse/" + pid;
-    var uriAuftrag = "api/auftrag/" + aid;
+    //var uriProd = "api/produktionsstrasse/" + pid;
+    var uriProd = "api/produktionsstrasse/neu/" + pid + "/" + mitarbeiter.standortId;
+    var uriAuftrag = "api/auftrag/" + mitarbeiter.auftragPraefix + "" + aid;
     fetch(uriProd)
         .then(response => {
             if (pid.length < 1) {
@@ -63,14 +64,16 @@ function auftragInitialisieren() {
                     zeiterfassungDatenZuSession(output);
                 })
                 .catch(error => {
-                    alert("Auftrag wurde nicht gefunden");
+                    document.getElementById("error").innerHTML = "Auftrag wurde nicht gefunden"
+                    //alert("Auftrag wurde nicht gefunden");
                     console.error('Auftrag wurde nicht gefunden.', error)
                 });
 
 
         })
         .catch(error => {
-            alert("Strasse wurde nicht gefunden");
+            document.getElementById("error").innerHTML = "Strasse wurde nicht gefunden"
+            //alert("Strasse wurde nicht gefunden");
             console.error('Strasse wurde nicht gefunden.', error)
         });
 }
