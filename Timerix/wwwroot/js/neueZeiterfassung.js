@@ -27,10 +27,10 @@ function speichern() {
     var pid = document.getElementById("pid").value;
     var aid = document.getElementById("aid").value;
     var aVorgang = JSON.parse(document.getElementById('arbeitsvorgangSelect').value);
-    //var uriProd = "api/produktionsstrasse/" + pid;
-    //var uriAuftrag = "api/auftrag/" + aid;
-    var uriProd = "api/produktionsstrasse/neu/" + pid + "/" + mitarbeiter.standortId;
-    var uriAuftrag = "api/auftrag/" + mitarbeiter.auftragPraefix + "" + aid;
+    var uriProd = "api/produktionsstrasse/" + pid;
+    var uriAuftrag = "api/auftrag/" + aid;
+    //var uriProd = "api/produktionsstrasse/neu/" + pid + "/" + mitarbeiter.standortId;
+    //var uriAuftrag = "api/auftrag/" + mitarbeiter.auftragPraefix + "" + aid;
     fetch(uriProd)
         .then(response => {
             if (pid.length < 1) {
@@ -56,11 +56,13 @@ function speichern() {
                     }
                 })
                 .then(dataAuftrag => {
+                    
                     var output = {
                         aVorgang,
                         dataProd,
                         dataAuftrag
                     };
+                    //alert(JSON.stringify(output))
                     addZeiterfassung(output);
                 })
                 .catch(error => {

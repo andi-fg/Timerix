@@ -100,9 +100,9 @@ namespace Timerix.Controllers
                     _context.Entry(zeiterfassung.Arbeitsvorgang).State = EntityState.Unchanged;
                     _ = addTagesrapport(zeiterfassung);
                 }
-                _context.Entry(zeiterfassungAlt).State = EntityState.Detached;
+                
             }
-            
+            _context.Entry(zeiterfassungAlt).State = EntityState.Detached;
         }
 
         //Aktuelle Zeiterfassung bekommen
@@ -129,7 +129,10 @@ namespace Timerix.Controllers
                 return NotFound();
             }
             TimeSpan t = DateTime.Now - zeiterfassung.ZeitVon;
-            string stunde = t.Hours + "";
+            
+            int d = t.Days;
+            int s = t.Hours + d*24;
+            string stunde = s + "";
             string minuten = t.Minutes + "";
             if (stunde.Length < 2)
             {
