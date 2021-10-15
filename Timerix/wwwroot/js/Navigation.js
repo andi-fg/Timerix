@@ -44,3 +44,11 @@ function showTagesrapport() {
 function showAuswertung() {
     window.location = "auswertung.html";
 }
+
+function importData(){
+    var uri = "api/import/import"
+    fetch(uri)
+        .then(response => {
+           
+        })
+}

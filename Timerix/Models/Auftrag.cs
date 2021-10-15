@@ -10,6 +10,8 @@ namespace Timerix.Models
 {
     public class Auftrag
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("Auftrag_ID")]
         public int AuftragId { get; set; }
         [Required]

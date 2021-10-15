@@ -1,4 +1,5 @@
 ﻿var mitarbeiter;
+//Footer erstellen
 function initFooter(seite) {
     var uriMitStan = "session/mitStandort";
     fetch(uriMitStan)
@@ -34,6 +35,7 @@ function initFooter(seite) {
             }
         });
 }
+//Footer nach login machen/ Mitarbeiter mit Standort bekommen
 function footerMenu(seite) {
     var uri = "session/mitId";
     fetch(uri)
@@ -56,7 +58,7 @@ function footerMenu(seite) {
                 });
         });
 }
-
+//Mitarbeiter schreiben
 function schreibFooter() {
     if (mitarbeiter.standortId != null) {
         document.getElementById("mitDaten").innerHTML = mitarbeiter.name + " " + mitarbeiter.vorname + " / MNr: " + mitarbeiter.mitarbeiterId + " / Standort: " + mitarbeiter.bezeichnung;
@@ -64,7 +66,7 @@ function schreibFooter() {
         document.getElementById("mitDaten").innerHTML = mitarbeiter.name + " " + mitarbeiter.vorname + " / MNr: " + mitarbeiter.mitarbeiterId + " / Standort: ";
     }
 }
-
+//Admin buttons
 function admin() {
     if (mitarbeiter.admin) {
         document.getElementById("mitButton").removeAttribute("hidden");
@@ -88,7 +90,7 @@ function fetchMitStan() {
 
         .catch(error => console.error('Unable to add user.', error));
 }
-
+//Zeit anzeige
 function ZeitAnzeigen() {
     var Wochentagname = new Array("Sonntag", "Montag", "Dienstag", "Mittwoch",
         "Donnerstag", "Freitag", "Samstag");

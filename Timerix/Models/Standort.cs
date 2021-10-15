@@ -15,6 +15,8 @@ namespace Timerix.Models
         [Column(TypeName = "VARCHAR(64)")]
         public string Bezeichnung { get; set; }
         public int? AuftragPraefix { get; set; }
+        [Column(TypeName = "VARCHAR(64)")]
+        public string Dataareaid { get; set; }
 
         public virtual ICollection<Auftrag> Auftrag { get; set; }
         public virtual ICollection<Produktionsstrasse> Produktionsstrasse { get; set; }

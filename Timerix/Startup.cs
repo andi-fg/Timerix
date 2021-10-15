@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Timerix.Models;
+using Timerix.ModelsAX;
 
 namespace Timerix
 {
@@ -31,6 +32,8 @@ namespace Timerix
 
             services.AddDbContext<TimerixContext>(opt =>
                opt.UseSqlServer(Configuration.GetConnectionString("Timerix")));
+            services.AddDbContext<AXDBContext>(opt =>
+               opt.UseSqlServer(Configuration.GetConnectionString("AXDB")));
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {

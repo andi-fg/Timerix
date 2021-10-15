@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Timerix.Data;
 using Timerix.Models;
+using Timerix.ModelsAX;
 
 namespace Timerix
 {
@@ -29,6 +30,8 @@ namespace Timerix
                 {
                     var context = services.GetRequiredService<TimerixContext>();
                     DbInitializer.Initialize(context);
+                    var contextAx = services.GetRequiredService<AXDBContext>();
+                    DbInitializer.InitializeAX(contextAx);
                 }
                 catch (Exception ex)
                 {
