@@ -43,12 +43,16 @@
         </div>
         <br />
         <div class="row">
-            <div class="col-3">
-                <button type="button" class="btn btn-secondary form-control" style="height:40px;" onclick="mitarbeiterNeu()">neu</button>
+            <div class="col-3 offset-9">
+                <select id="aktiv" class="form-select" aria-label="Default select example" onchange="wechsekAktiv()">
+                    <option selected value="1">Alle</option>
+                    <option value="2">Aktiv</option>
+                    <option value="3">Innaktiv</option>
+                </select>
             </div>
         </div>
         <br />
-        <div class="row-fluid table-wrapper-scroll-y my-custom-scrollbar">
+        <div class="row-fluid">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -62,6 +66,20 @@
                 <tbody id="tabelle">
                 </tbody>
             </table>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <img src="bilder/pfeilZurueck.png" onclick="privious()" />
+            </div>
+            <div class="col-2 offset-8">
+                <img src="bilder/pfeilNext.png" onclick="next()" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-3">
+                <button type="button" class="btn btn-secondary form-control" style="height:40px;" onclick="mitarbeiterNeu()">neu</button>
+            </div>
         </div>
         <br />
     </div>
@@ -80,7 +98,7 @@
             </div>
             <div class="row">
                 <div style="text-align:left" class="col p-4" id="mitDaten">
-                    
+
                 </div>
                 <div style="text-align:right" class="p-4 col" id="zeit">
 
@@ -91,7 +109,6 @@
 
     </footer>
     <script src="js/Footer.js"></script>
-    <script src="js/Uhrzeit.js"></script>
     <script src="js/Session.js"></script>
     <script src="js/Navigation.js"></script>
     <script src="js/mitarbeiterUeber.js"></script>

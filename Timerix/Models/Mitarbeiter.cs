@@ -9,6 +9,8 @@ namespace Timerix.Models
 {
     public class Mitarbeiter
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("Mitarbeiter_ID")]
         public int MitarbeiterId { get; set; }
         [Required]

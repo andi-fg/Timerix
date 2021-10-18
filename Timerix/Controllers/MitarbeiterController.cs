@@ -128,5 +128,26 @@ namespace Timerix.Controllers
         {
             return _context.Mitarbeiter.Any(e => e.MitarbeiterId == id);
         }
+
+        //Get MitariberterList mit aktiven oder innaktiven mitarbeiter
+        // GET: api/Mitarbeiter
+        [HttpGet("aktiv/{id}")]
+        public async Task<ActionResult<IEnumerable<Mitarbeiter>>> GetMitarbeiterAktiv(int id)
+        {
+            List<Mitarbeiter> ml = new List<Mitarbeiter>();
+            if(id == 2)
+            {
+                ml = _context.Mitarbeiter
+                    .Where(mit => mit.Aktiv == true)
+                    .ToList();
+            }
+            else if(id == 3)
+            {
+                ml = _context.Mitarbeiter
+                    .Where(mit => mit.Aktiv == false)
+                    .ToList();
+            }
+            return ml;
+        }
     }
 }

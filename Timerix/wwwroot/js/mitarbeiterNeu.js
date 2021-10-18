@@ -12,7 +12,7 @@ function speichern() {
             if (response.status == 404) {
                 response.json()
             } else {
-                //throw new Error("HTTP status " + response.status);
+                throw new Error("HTTP status " + response.status);
             }
         })
         .then(data => {
@@ -26,7 +26,7 @@ function speichern() {
 function mitarbeiterSpeichern() {
     var uri = "api/mitarbeiter";
     var mitarbeiterBea = {}
-    //mitarbeiterBea.mitarbeiterId = document.getElementById("mid").value
+    mitarbeiterBea.mitarbeiterId = document.getElementById("mid").value
     mitarbeiterBea.name = document.getElementById("name").value
     mitarbeiterBea.vorname = document.getElementById("vorname").value
     mitarbeiterBea.bereich = document.getElementById("bereich").value
@@ -58,6 +58,7 @@ function mitarbeiterSpeichern() {
         });
    // alert(JSON.stringify(mitarbeiterBea))
 }
+//Datum konventieren
 function strToDate(dtStr) {
     if (!dtStr) return null
     var dateParts = dtStr.split("/");
