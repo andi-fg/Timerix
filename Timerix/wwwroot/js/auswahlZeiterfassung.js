@@ -8,7 +8,9 @@ function tabelle() {
     fetch(uri)
         .then(response => response.json())
         .then(data => {
-            machTabelle(data)
+            dataArray = data;
+            getData(start, 8);
+            //machTabelle(data)
         });
 }
 
@@ -94,4 +96,79 @@ function zeiterfassungBearbeiten(zid) {
 }
 function neueZeiterfassung() {
     window.location = "neueZeiterfassung.html"
+}
+//Tabelle
+var start = 0;
+var dataArray;
+function next() {
+    start = start + 1;
+    if ((start * 8) >= dataArray.length) {
+        start = start - 1;
+    }
+    else {
+        getData(start, 8);
+    }
+}
+function privious() {
+    start = start - 1;
+    if (start < 0) {
+        start = start + 1
+    }
+    else {
+        getData(start, 8);
+    }
+}
+
+function getData(pageIndex, resultsPerPage) {
+
+    var offset = pageIndex * resultsPerPage;//page 2=8, page 3=16;
+    var limit = offset + resultsPerPage;
+
+    var body = document.getElementById("tabelle");
+    body.innerHTML = "";
+    //loop through data
+    for (var i = offset; i < limit; i++) {
+        var tr = document.createElement("tr");
+        var funktio = "zeiterfassungBearbeiten(" + dataArray[i].zeiterfassungId + ")"
+        tr.setAttribute("onclick", funktio);
+        var tdAuftrag = document.createElement("td");
+        var auftrag = document.createTextNode(dataArray[i].auftrag.auftragId);
+        tdAuftrag.appendChild(auftrag);
+        tr.appendChild(tdAuftrag);
+        var date = new Date(dataArray[i].zeitVon);
+        var tdVon = document.createElement("td");
+        var von = document.createTextNode(getZeit(date));
+        tdVon.appendChild(von);
+        tr.appendChild(tdVon);
+        var dateBis = new Date(dataArray[i].zeitBis);
+        var tdBis = document.createElement("td");
+        var bis;
+        if (dateBis < date) {
+            bis = document.createTextNode("");
+        } else {
+            bis = document.createTextNode(getZeit(dateBis));
+        }
+
+        tdBis.appendChild(bis);
+        tr.appendChild(tdBis);
+        var tdBesch = document.createElement("td");
+        var besch = document.createTextNode(dataArray[i].auftrag.beschreibung);
+        tdBesch.appendChild(besch);
+        tr.appendChild(tdBesch);
+        var tdArbeits = document.createElement("td");
+        var arbeits = document.createTextNode(dataArray[i].arbeitsvorgang.arbeitsvorgangName);
+        tdArbeits.appendChild(arbeits);
+        tr.appendChild(tdArbeits);
+        var tdDauer = document.createElement("td");
+        var dauer;
+        if (dateBis < date) {
+            var jetzt = new Date();
+            dauer = document.createTextNode(getDauer(new Date(jetzt - date)));
+        } else {
+            dauer = document.createTextNode(getDauer(new Date(dateBis - date)));
+        }
+        tdDauer.appendChild(dauer);
+        tr.appendChild(tdDauer);
+        body.appendChild(tr);
+    }
 }

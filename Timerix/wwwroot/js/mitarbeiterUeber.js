@@ -85,12 +85,12 @@ function wechsekAktiv() {
             });
     }
 }
-
+//Tabelle erstellen
 var start = 0;
 var dataArray;
 function next() {
     start = start + 1;
-    if ((start * 10) > dataArray.length) {
+    if ((start * 8) >= dataArray.length) {
         start = start - 1;
     }
     else {
@@ -109,7 +109,7 @@ function privious() {
 
 function getData(pageIndex, resultsPerPage) {
 
-    var offset = pageIndex * resultsPerPage;//page 2=10, page 3=20;
+    var offset = pageIndex * resultsPerPage;//page 2=8, page 3=16;
     var limit = offset + resultsPerPage;
 
     var body = document.getElementById("tabelle");
@@ -142,6 +142,4 @@ function getData(pageIndex, resultsPerPage) {
         tr.appendChild(tdAbt);
         body.appendChild(tr);
     }
-
-
 }
