@@ -2,6 +2,7 @@
 init();
 function init() {
     mitarbeiter = initFooter("");
+    document.getElementById('datePicker').valueAsDate = new Date()
 }
 
 function speichern() {
@@ -32,9 +33,10 @@ function mitarbeiterSpeichern() {
     mitarbeiterBea.bereich = document.getElementById("bereich").value
     mitarbeiterBea.abteilung = document.getElementById("abt").value
     mitarbeiterBea.aktiv = document.getElementById("aktiv").checked
-    var d = strToDate(document.getElementById("datum").value)
-    d.setHours(d.getHours() + 2)
-    mitarbeiterBea.geburtsdatum = d
+    //var d = strToDate(document.getElementById("datum").value)
+    //d.setHours(d.getHours() + 2)
+    // mitarbeiterBea.geburtsdatum = d
+    mitarbeiterBea.geburtsdatum = document.getElementById('datePicker').valueAsDate;
     fetch(uri, {
         method: 'POST',
         headers: {
@@ -53,10 +55,10 @@ function mitarbeiterSpeichern() {
         })
 
         .catch(error => {
-            document.getElementById("error").innerHTML = "Fehler bei Zeitformat bei von: dd/mm/yyyy oder nicht alle Pflichtfelder ausgefühlt"
+            document.getElementById("error").innerHTML = "Alle Pflichtfelder müssen ausgefühlt werden"
             console.error('Mitarberiter wurde nicht gespeichert', error)
         });
-   // alert(JSON.stringify(mitarbeiterBea))
+   //alert(JSON.stringify(mitarbeiterBea))
 }
 //Datum konventieren
 function strToDate(dtStr) {

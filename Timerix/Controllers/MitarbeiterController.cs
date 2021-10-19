@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +28,7 @@ namespace Timerix.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Mitarbeiter>>> GetMitarbeiter()
         {
+            
             return await _context.Mitarbeiter.ToListAsync();
         }
 
@@ -38,7 +42,7 @@ namespace Timerix.Controllers
             {
                 return NotFound();
             }
-
+            
             return mitarbeiter;
         }
         //Get Mitarbeiter mit Standort zusammen

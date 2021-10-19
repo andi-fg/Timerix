@@ -16,6 +16,7 @@ function getRapport() {
         .then(response => response.json())
         .then(data => {
             dataArray = data;
+            anzahlSeiten()
             getData(start, 4);
            // machTabelle(data);
         });
@@ -112,7 +113,15 @@ function updateTagesrapport(rapport) {
             console.error('Zeiterfassung wurde nicht geändert', error)
         });
 }
-
+function anzahlSeiten() {
+    var s = Math.floor(dataArray.length / 4);
+    if (dataArray.length % 4 == 0) {
+        document.getElementById("seitenAnzahl").innerHTML = s;
+    } else {
+        document.getElementById("seitenAnzahl").innerHTML = s + 1;
+    }
+    
+}
 //Tabelle erstellen
 var start = 0;
 var dataArray;
@@ -139,7 +148,7 @@ function getData(pageIndex, resultsPerPage) {
 
     var offset = pageIndex * resultsPerPage;//page 2=8, page 3=16;
     var limit = offset + resultsPerPage;
-
+    document.getElementById("seite").innerHTML = pageIndex + 1
     var body = document.getElementById("tabelle");
     body.innerHTML = "";
     //loop through data

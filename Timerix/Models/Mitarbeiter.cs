@@ -29,7 +29,7 @@ namespace Timerix.Models
         public int? StandortId { get; set; }
         [Column(TypeName = "VARCHAR(32)")]
         public string Bereich { get; set; }
-        public bool? Aktiv { get; set; }
+        public bool Aktiv { get; set; }
         public Standort Standort { get; set; }
         public virtual ICollection<Mobatime> Mobatime { get; set; }
         public virtual ICollection<Zeiterfassung> Zeiterfassung { get; set; }

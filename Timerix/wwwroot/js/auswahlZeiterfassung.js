@@ -9,12 +9,13 @@ function tabelle() {
         .then(response => response.json())
         .then(data => {
             dataArray = data;
+            anzahlSeiten()
             getData(start, 8);
             //machTabelle(data)
         });
 }
 
-function machTabelle(data) {
+/*function machTabelle(data) {
     var body = document.getElementById("tabelle");
     data.forEach(item => {
         var tr = document.createElement("tr");
@@ -60,8 +61,8 @@ function machTabelle(data) {
         tr.appendChild(tdDauer);
         body.appendChild(tr);
     })
-}
-
+}*/
+//Zeit anzeieg
 function getZeit(date) {
     var tag = ((date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate()))
     var monat = (((date.getMonth()+1).toString().length > 1) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1)));
@@ -71,6 +72,7 @@ function getZeit(date) {
     var sekunden = ((date.getSeconds().toString().length > 1) ? date.getSeconds() : ('0' + date.getSeconds()));
     return tag + "/" + monat + "/" + jahr + " " + stunden + ":" + minuten + ":" + sekunden;
 }
+//Dauer anzeige
 function getDauer(date) {
     var jahr = date.getFullYear() - 1970;
     var monat = date.getMonth() + jahr*12;
@@ -96,6 +98,14 @@ function zeiterfassungBearbeiten(zid) {
 }
 function neueZeiterfassung() {
     window.location = "neueZeiterfassung.html"
+}
+function anzahlSeiten() {
+    var s = Math.floor(dataArray.length / 8);
+    if (dataArray.length % 8 == 0) {
+        document.getElementById("seitenAnzahl").innerHTML = s;
+    } else {
+        document.getElementById("seitenAnzahl").innerHTML = s + 1;
+    }
 }
 //Tabelle
 var start = 0;
@@ -123,7 +133,7 @@ function getData(pageIndex, resultsPerPage) {
 
     var offset = pageIndex * resultsPerPage;//page 2=8, page 3=16;
     var limit = offset + resultsPerPage;
-
+    document.getElementById("seite").innerHTML = pageIndex + 1
     var body = document.getElementById("tabelle");
     body.innerHTML = "";
     //loop through data

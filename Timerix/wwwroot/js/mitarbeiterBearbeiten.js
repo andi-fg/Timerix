@@ -15,6 +15,7 @@ function getMitarbeiterSession() {
 }
 function getMitarbeiter(mid) {
     var uri = "api/mitarbeiter/" + mid;
+    //alert(uri);
     fetch(uri)
         .then(response => response.json())
         .then(data => {
@@ -23,11 +24,16 @@ function getMitarbeiter(mid) {
 }
 var mitarbeiterBea;
 function ausgabe(mit) {
+    //alert(JSON.stringify(mit));
     mitarbeiterBea = mit;
     document.getElementById("mid").innerHTML = mit.mitarbeiterId;
     document.getElementById("name").value = mit.name;
     document.getElementById("vorname").value = mit.vorname;
-    document.getElementById("datum").value = getZeit(new Date(mit.geburtsdatum));
+    //document.getElementById("datum").value = getZeit(new Date(mit.geburtsdatum));
+    var d = Date.parse(mit.geburtsdatum)
+    d += 3600000*2;
+    //alert(new Date(d))
+    document.getElementById("datePicker").valueAsDate = new Date(d);
     document.getElementById("bereich").value = mit.bereich;
     document.getElementById("abt").value = mit.abteilung;
     document.getElementById("aktiv").checked = mit.aktiv;
@@ -47,9 +53,11 @@ function speichern() {
     mitarbeiterBea.bereich = document.getElementById("bereich").value
     mitarbeiterBea.abteilung = document.getElementById("abt").value
     mitarbeiterBea.aktiv = document.getElementById("aktiv").checked
-    var d = strToDate(document.getElementById("datum").value)
-    mitarbeiterBea.geburtsdatum = d
-    d.setHours(d.getHours() + 1)
+    mitarbeiterBea.geburtsdatum = document.getElementById('datePicker').valueAsDate;
+    //var d = strToDate(document.getElementById("datum").value)
+    //d.setHours(d.getHours() + 1)
+    //mitarbeiterBea.geburtsdatum = d
+    
     fetch(uri, {
         method: 'PUT',
         headers: {
@@ -68,7 +76,7 @@ function speichern() {
         })
 
         .catch(error => {
-            document.getElementById("error").innerHTML = "Fehler bei Zeitformat bei von: dd/mm/yyyy"
+            document.getElementById("error").innerHTML = "Alle Pflichtfelder müssen ausgefühlt werden"
             console.error('Zeiterfassung wurde nicht geändert', error)
         });
     //alert(JSON.stringify(mitarbeiterBea))

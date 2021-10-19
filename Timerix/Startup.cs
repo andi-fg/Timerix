@@ -41,6 +41,7 @@ namespace Timerix
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+        
             services.AddControllers();
         }
 
@@ -58,7 +59,6 @@ namespace Timerix
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseSession();

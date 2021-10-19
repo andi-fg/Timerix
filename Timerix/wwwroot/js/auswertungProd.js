@@ -24,6 +24,7 @@ function initTabelle(pid) {
         .then(response => response.json())
         .then(dataProd => {
             dataArray = dataProd;
+            anzahlSeiten()
             getData(start, 8);
            // tabelleErstellen(dataProd)
         });
@@ -74,6 +75,14 @@ function getZeit(date) {
 }
 
 //Tabelle
+function anzahlSeiten() {
+    var s = Math.floor(dataArray.length / 8);
+    if (dataArray.length % 8 == 0) {
+        document.getElementById("seitenAnzahl").innerHTML = s;
+    } else {
+        document.getElementById("seitenAnzahl").innerHTML = s + 1;
+    }
+}
 var start = 0;
 var dataArray;
 function next() {
@@ -99,7 +108,7 @@ function getData(pageIndex, resultsPerPage) {
 
     var offset = pageIndex * resultsPerPage;//page 2=8, page 3=16;
     var limit = offset + resultsPerPage;
-
+    document.getElementById("seite").innerHTML = pageIndex + 1
     var body = document.getElementById("tabelle");
     body.innerHTML = "";
     //loop through data
