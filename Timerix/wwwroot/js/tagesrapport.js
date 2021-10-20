@@ -1,16 +1,17 @@
 ﻿var mitarbeiter;
 init();
 function init() {
-    mitarbeiter = initFooter();
     document.getElementById('datePicker').valueAsDate = new Date()
-    getRapport();
+    mitarbeiter =  initFooter("rapport");
+    
+    //getRapport();
 }
 
 function getRapport() {
     var d = document.getElementById('datePicker').valueAsDate;
     var datum = JSON.stringify(d);
     var rep = datum.replace(/["']/g, "")
-    var uri = "https://localhost:44339/api/tagesrapport/datum?datum=" + rep;
+    var uri = "https://localhost:44339/api/tagesrapport/datum/" + mitarbeiter.standortId+ "?datum=" + rep;
     //alert(uri);
     fetch(uri)
         .then(response => response.json())
@@ -18,7 +19,8 @@ function getRapport() {
             dataArray = data;
             anzahlSeiten()
             getData(start, 4);
-           // machTabelle(data);
+            // machTabelle(data);
+           
         });
 }
 
@@ -114,6 +116,7 @@ function updateTagesrapport(rapport) {
         });
 }
 function anzahlSeiten() {
+    start = 0;
     var s = Math.floor(dataArray.length / 4);
     if (dataArray.length % 4 == 0) {
         document.getElementById("seitenAnzahl").innerHTML = s;
@@ -144,7 +147,7 @@ function privious() {
     }
 }
 
-function getData(pageIndex, resultsPerPage) {
+async function getData(pageIndex, resultsPerPage) {
 
     var offset = pageIndex * resultsPerPage;//page 2=8, page 3=16;
     var limit = offset + resultsPerPage;
@@ -152,8 +155,8 @@ function getData(pageIndex, resultsPerPage) {
     var body = document.getElementById("tabelle");
     body.innerHTML = "";
     //loop through data
-    for (var i = offset; i < limit; i++) {
-
+    for (var i = offset; (i < limit) && (i < dataArray.length); i++) {
+       // alert(JSON.stringify(dataArray[i]))
         var tr = document.createElement("tr");
         tr.value = dataArray[i];
         tr.setAttribute("id", i);
@@ -172,6 +175,12 @@ function getData(pageIndex, resultsPerPage) {
         var linie = document.createTextNode(dataArray[i].produktionsstrasse.beschreibung);
         tdLinie.appendChild(linie);
         tr.appendChild(tdLinie);
+        //Zeit 
+        var z = await dauer(dataArray[i])
+        var tdZeit = document.createElement("td");
+        var zeit = document.createTextNode(z);
+        tdZeit.appendChild(zeit);
+        tr.appendChild(tdZeit);
         //Anzahl
         var tdAnzahl = document.createElement("td");
         var inputAnzahl = document.createElement("input");
@@ -198,3 +207,16 @@ function getData(pageIndex, resultsPerPage) {
        // counter++;
     }
 }
+
+async function dauer(o) {
+    var response = await fetch("api/tagesrapport/zeitDauer", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(o)
+    })
+    return await response.json();
+}
+

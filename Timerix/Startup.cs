@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,7 +42,7 @@ namespace Timerix
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-        
+           
             services.AddControllers();
         }
 
@@ -59,6 +60,7 @@ namespace Timerix
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
             app.UseAuthorization();
 
             app.UseSession();

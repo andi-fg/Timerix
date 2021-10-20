@@ -29,6 +29,9 @@ function initFooter(seite) {
                 else if (seite == "ausGesamt") {
                     ausTabelle();
                 }
+                else if (seite == "rapport") {
+                    getRapport();
+                }
                 return mitarbeiter;
             } else {
                 footerMenu(seite);

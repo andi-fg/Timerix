@@ -78,8 +78,9 @@ function getDauer(date) {
     var monat = date.getMonth() + jahr*12;
     var tag = date.getDate() - 1 + monat * 30;
     var stunden;
-    if (tag > 1) {
-        stunden = date.getHours() + 24 * tag;
+    if (tag >= 1) {
+       
+        stunden = date.getHours()-1 + 24 * tag;
     } else {
         stunden = ((date.getHours().toString().length > 1) ? date.getHours() : ('0' + date.getHours())) - 1;
     }

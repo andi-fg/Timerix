@@ -45,15 +45,15 @@ namespace Timerix.Controllers
 
         // GET: alle Tagesrapporte vom tag
         //https://localhost:44339/api/tagesrapport/datum?datum=2021-10-11T00:00:00.000Z
-        [HttpGet("datum")]
-        public async Task<ActionResult<IEnumerable<TagesrapportViewModel>>> GetDatumTagesrapport(string datum)
+        [HttpGet("datum/{sid}")]
+        public async Task<ActionResult<IEnumerable<TagesrapportViewModel>>> GetDatumTagesrapport(string datum, int sid)
         {
             var cultureInfo = new CultureInfo("de-DE");
             var date = DateTime.Parse(datum, cultureInfo);
             var tagesrapport =  _context.Tagesrapport
-                .Where(tag => tag.Datum == date.Date)
                 .Include(tag => tag.Auftrag)
                 .Include(tag => tag.Produktionsstrasse)
+                .Where(tag => tag.Datum == date.Date && tag.Auftrag.StandortId == sid)
                 .ToList();
 
             if (tagesrapport == null)
@@ -86,7 +86,49 @@ namespace Timerix.Controllers
             return tvml;
         }
 
+        //Get Aktuelle Dauer der Zeiterfassung
+        [HttpPost("zeitDauer")]
+        public async Task<ActionResult<String>> GetDauerTagesrapport(Tagesrapport tagesrapport)
+        {
+            var zeiterfassungen = _context.Zeiterfassung
+                .Where(zeit => zeit.AuftragId == tagesrapport.AuftragId && zeit.ProduktionsstrasseId == tagesrapport.ProduktionsstrasseId && zeit.ZeitVon.Date == tagesrapport.Datum)
+                .ToList();
+            int s = 0;
+            int m = 0;
+            foreach(Zeiterfassung z in zeiterfassungen)
+            {
+                TimeSpan t;
+                if(z.ZeitBis != null)
+                {
+                    t = (TimeSpan)(z.ZeitBis - z.ZeitVon);
+                }
+                else
+                {
+                    t = DateTime.Now - z.ZeitVon;
+                }
+                int d = t.Days;
+                s += t.Hours + d * 24;
+                m += t.Minutes;
+            }
+            while(m > 60)
+            {
+                m -= 60;
+                s++;
+            }
+            string stunde = s + "";
+            string minuten = m + "";
+            if (stunde.Length < 2)
+            {
+                stunde = "0" + stunde;
+            }
+            if (minuten.Length < 2)
+            {
+                minuten = "0" + minuten;
+            }
 
+            string output = stunde + ":" + minuten;
+            return output;
+        }
         // PUT: api/Tagesrapport/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

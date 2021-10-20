@@ -1,4 +1,9 @@
 ﻿.btn-menu {
 	background-color: rgb(38,77,156);
-	color:white
+	color: white
+}
+
+.btn-menu:hover {
+	background-color: #0000CD;
+	color:white;
 }

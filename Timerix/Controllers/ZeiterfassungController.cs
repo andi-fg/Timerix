@@ -210,6 +210,9 @@ namespace Timerix.Controllers
             _context.Entry(zeiterfassung.Arbeitsvorgang).State = EntityState.Unchanged;
             zeiterfassung.ZeitVon = DateTime.Now;
             _context.Zeiterfassung.Add(zeiterfassung);
+            zeiterfassung.AuftragId = zeiterfassung.Auftrag.AuftragId;
+            zeiterfassung.ProduktionsstrasseId = zeiterfassung.Produktionsstrasse.ProduktionsstrasseId;
+            addTagesrapport(zeiterfassung);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetZeiterfassung", new { id = zeiterfassung.ZeiterfassungId }, zeiterfassung);
