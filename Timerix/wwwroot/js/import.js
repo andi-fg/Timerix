@@ -11,6 +11,7 @@ function importBut(){
     fetch(uri)
         .then(response => {
             document.getElementById("ok").innerHTML = "Import durchgeführt"
+            filter();
             window.setTimeout("clear()", 10000);
         })
 }
@@ -24,7 +25,7 @@ function filter() {
     var i = document.getElementById("filterID").value;
     var s = document.getElementById("filterBes").value;
     if (s == 1) {
-        //Alle und zahl eingegeben
+        //Alle und zahl 
         var uri = "api/logimport/" + i
         fetch(uri)
             .then(response => response.json())

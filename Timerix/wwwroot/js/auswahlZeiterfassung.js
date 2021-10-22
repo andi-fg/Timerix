@@ -183,3 +183,21 @@ function getData(pageIndex, resultsPerPage) {
         body.appendChild(tr);
     }
 }
+
+//Filter
+function filter() {
+    start = 0
+    var i = document.getElementById("filterID").value;
+    if (i.length == 0) {
+        tabelle();
+    } else {
+        var uri = "api/zeiterfassung/filter/" + i + "/" + mitarbeiter.mitarbeiterId;
+        fetch(uri)
+            .then(response => response.json())
+            .then(data => {
+                dataArray = data;
+                anzahlSeiten()
+                getData(start, 8);
+            });
+    }
+}

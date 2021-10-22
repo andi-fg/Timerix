@@ -322,6 +322,55 @@ namespace Timerix.Controllers
             return CreatedAtAction("GetZeiterfassung", new { id = zeiterfassung.ZeiterfassungId }, zeiterfassung);
         }
 
+
+        //Filter Nach AuftragsID
+        // GET: api/Zeiterfassung/filter/1/1
+        [HttpGet("filter/{id}/{mid}")]
+        public async Task<ActionResult<IEnumerable<ZeiterfassungViewModel>>> GetZeiterfassungFilter(int id, int mid)
+        {
+            var lz = await _context.Zeiterfassung
+                .Where(zeit => zeit.AuftragId == id && zeit.ArbeitsvorgangId != null)
+                .Where(zeit => zeit.MitarbeiterId == mid)
+                .OrderByDescending(zeit => zeit.ZeitVon)
+                .Include(zeit => zeit.Auftrag)
+                .Include(zeit => zeit.Produktionsstrasse)
+                .Include(zeit => zeit.Arbeitsvorgang)
+                .ToListAsync();
+            if (lz == null)
+            {
+                return NotFound();
+            }
+            List<ZeiterfassungViewModel> lzvm = new List<ZeiterfassungViewModel>();
+            foreach (Zeiterfassung z in lz)
+            {
+                ZeiterfassungViewModel zv = new ZeiterfassungViewModel();
+                zv.ZeiterfassungId = z.ZeiterfassungId;
+                zv.ZeitBis = z.ZeitBis;
+                zv.ZeitVon = z.ZeitVon;
+                zv.Anzahl = z.Anzahl;
+                zv.Bemerkung = z.Bemerkung;
+                zv.MitarbeiterId = z.MitarbeiterId;
+                AuftragViewModel avm = new AuftragViewModel();
+                avm.AuftragId = z.Auftrag.AuftragId;
+                avm.Beschreibung = z.Auftrag.Beschreibung;
+                avm.ItemId = z.Auftrag.ItemId;
+                avm.QtySched = z.Auftrag.QtySched;
+                avm.Nummer = z.Auftrag.Nummer;
+                zv.Auftrag = avm;
+                ArbeitsvorgangViewModel abvm = new ArbeitsvorgangViewModel();
+                abvm.ArbeitsvorgangId = z.Arbeitsvorgang.ArbeitsvorgangId;
+                abvm.ArbeitsvorgangName = z.Arbeitsvorgang.ArbeitsvorgangName;
+                abvm.Aktiv = z.Arbeitsvorgang.Aktiv;
+                zv.Arbeitsvorgang = abvm;
+                ProduktionsstrasseViewModel pvm = new ProduktionsstrasseViewModel();
+                pvm.Aktiv = z.Produktionsstrasse.Aktiv;
+                pvm.Beschreibung = z.Produktionsstrasse.Beschreibung;
+                pvm.ProduktionsstrasseId = z.Produktionsstrasse.ProduktionsstrasseId;
+                zv.Produktionsstrasse = pvm;
+                lzvm.Add(zv);
+            }
+            return lzvm;
+        }
         // DELETE: api/Zeiterfassung/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteZeiterfassung(int id)
