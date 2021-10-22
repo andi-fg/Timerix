@@ -20,6 +20,7 @@ namespace Timerix.Models
         public  DbSet<Standort> Standort { get; set; }
         public  DbSet<Tagesrapport> Tagesrapport { get; set; }
         public  DbSet<Zeiterfassung> Zeiterfassung { get; set; }
+        public DbSet<Logimport> Logimport { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Standort>().ToTable("Standort");
@@ -30,6 +31,7 @@ namespace Timerix.Models
             modelBuilder.Entity<Arbeitsvorgang>().ToTable("Arbeitsvorgang");
             modelBuilder.Entity<Tagesrapport>().ToTable("Tagesrapport");
             modelBuilder.Entity<Zeiterfassung>().ToTable("Zeiterfassung");
+            modelBuilder.Entity<Logimport>().ToTable("Logimport");
             //PKs
             modelBuilder.Entity<Tagesrapport>().HasKey(sc => new { sc.AuftragId, sc.Datum, sc.ProduktionsstrasseId });
         }

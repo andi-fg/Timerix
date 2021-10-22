@@ -45,10 +45,11 @@ function showAuswertung() {
     window.location = "auswertung.html";
 }
 
-function importData(){
-    var uri = "api/import/import"
+function importData() {
+    window.location = "import.html";
+    /*var uri = "api/import/import"
     fetch(uri)
         .then(response => {
            
-        })
+        })*/
 }
