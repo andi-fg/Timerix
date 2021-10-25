@@ -1,6 +1,6 @@
 ﻿function login() {
     var mid = document.getElementById("mid").value;
-    var uri = "api/Mitarbeiter/" + mid;
+    var uri = "api/Mitarbeiter/login/" + mid;
     if (mid.length > 0) {
         fetch(uri)
             .then(response => {

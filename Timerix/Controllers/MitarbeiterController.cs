@@ -47,6 +47,19 @@ namespace Timerix.Controllers
             }
             return mitarbeiter;
         }
+        //Get Mitarbeite für Login ob er auck aktiv ist
+        // GET: api/Mitarbeiter/Login/5
+        [HttpGet("login/{id}")]
+        public async Task<ActionResult<Mitarbeiter>> GetMitarbeiterLogin(int id)
+        {
+            var mitarbeiter = await _context.Mitarbeiter.FindAsync(id);
+            //var mitarbeiter = await _context.Mitarbeiter.Include(mitarbeiter => mitarbeiter.Standort).FirstOrDefaultAsync(mitarbeiter => mitarbeiter.MitarbeiterId == id); ;
+            if (mitarbeiter == null || mitarbeiter.Aktiv == false)
+            {
+                return NotFound();
+            }
+            return mitarbeiter;
+        }
         //Get Mitarbeiter mit Standort zusammen
         // GET: api/Mitarbeiter/mitstan/5
         [HttpGet("mitstan/{id}")]
