@@ -43,7 +43,7 @@ namespace Timerix.Controllers
             return tagesrapport;
         }
 
-        // GET: alle Tagesrapporte vom tag
+        // GET: alle Tagesrapporte vom tag und dem Standort
         //https://localhost:44339/api/tagesrapport/datum?datum=2021-10-11T00:00:00.000Z
         [HttpGet("datum/{sid}")]
         public async Task<ActionResult<IEnumerable<TagesrapportViewModel>>> GetDatumTagesrapport(string datum, int sid)
@@ -86,7 +86,7 @@ namespace Timerix.Controllers
             return tvml;
         }
 
-        //Get Aktuelle Dauer der Zeiterfassung
+        //Get Dauer des Tagesrapports
         [HttpPost("zeitDauer")]
         public async Task<ActionResult<String>> GetDauerTagesrapport(Tagesrapport tagesrapport)
         {

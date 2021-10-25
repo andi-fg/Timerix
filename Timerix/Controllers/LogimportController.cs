@@ -27,7 +27,7 @@ namespace Timerix.Controllers
 
             return await _context.Logimport.OrderByDescending(log => log.Zeitpunkt).ToListAsync();
         }
-        //Importlogs und nur Nummer wird geschaut
+        //Importlogs und  Nummer wird geschaut für Filter
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<Logimport>>> GetLogImportFilter(int id)
         {
@@ -40,7 +40,7 @@ namespace Timerix.Controllers
             }
             return output;
         }
-        //Importlogs und nur Nummer und Beschreibung wird geschaut
+        //Importlogs und  Nummer und Beschreibung wird geschaut für Filter
         [HttpGet("beide/{id}/{bes}")]
         public async Task<ActionResult<IEnumerable<Logimport>>> GetLogImportFilterBeide(int id,int bes)
         {
@@ -73,7 +73,7 @@ namespace Timerix.Controllers
             }
             return output;
         }
-        //Importlogs und nur Beschreibung wird geschaut
+        //Importlogs und nur Beschreibung wird geschaut ür Filter
         [HttpGet("bes/{id}")]
         public async Task<ActionResult<IEnumerable<Logimport>>> GetLogImportFilterBeschreibung(int id)
         {

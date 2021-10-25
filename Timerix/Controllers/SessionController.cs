@@ -20,11 +20,13 @@ namespace Timerix.Controllers
         {
             return Content(HttpContext.Session.Id);
         }
+        //Reset Session
         [HttpGet("reset")]
         public void SessionClear(String mid)
         {
             HttpContext.Session.Clear();
         }
+        //Mitarbeiter id
         [HttpGet("mitId/{mid}")]
         public IActionResult SaveToSessionMitarbeiter(String mid)
         {
@@ -38,6 +40,7 @@ namespace Timerix.Controllers
             string mit = HttpContext.Session.GetString("mit_id");
             return Content(mit);
         }
+        //Mitarbeiter mit Standort zusammen zur Session
         [HttpPost("mitStandort")]
         public IActionResult SetObjectAsJson(MitarbeiterStandortViewModel value)
         {
@@ -56,7 +59,7 @@ namespace Timerix.Controllers
             var ausgabe =  JsonConvert.DeserializeObject<MitarbeiterStandortViewModel>(value);
             return ausgabe;
         }
-
+        //Daten für Zeiterfassung neu zu Zeiterfassung bestätigen
         [HttpPost("zeiterfassungDaten")]
         public IActionResult SetZeiterfassungDaten(object value)
         {
@@ -71,7 +74,7 @@ namespace Timerix.Controllers
             string data = HttpContext.Session.GetString("zeiterfassungDaten");
             return Content(data);
         }
-
+        //Zeiterfassung id
         [HttpGet("zeitId/{zid}")]
         public IActionResult SaveToSessionZeiterfassung(String zid)
         {
@@ -85,6 +88,7 @@ namespace Timerix.Controllers
             string zid = HttpContext.Session.GetString("zeit_id");
             return Content(zid);
         }
+        //Mitarbeiter id zum Bearbeiten
         [HttpGet("mitBearbeitenId/{mid}")]
         public IActionResult SaveToSessionMitarbeiterBearbeite(String mid)
         {
@@ -98,6 +102,7 @@ namespace Timerix.Controllers
             string mit = HttpContext.Session.GetString("mitBearbeiten_id");
             return Content(mit);
         }
+        //Auftrag ID für Auswertung des Auftrages
         [HttpGet("auftragId/{aid}")]
         public IActionResult SaveToSessionAuftragId(String aid)
         {
@@ -111,6 +116,7 @@ namespace Timerix.Controllers
             string aid = HttpContext.Session.GetString("auftrag_id");
             return Content(aid);
         }
+        //Produktionsstrasse id für Auswertung der Strasse
         [HttpGet("prodId/{pid}")]
         public IActionResult SaveToSessionProdId(String pid)
         {

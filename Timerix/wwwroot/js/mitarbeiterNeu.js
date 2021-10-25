@@ -24,7 +24,7 @@ function speichern() {
             console.error('Mitarbeiternummer ist schon vergeben', error)
         });
 }
-function mitarbeiterSpeichern() {
+async function mitarbeiterSpeichern() {
     var uri = "api/mitarbeiter";
     var mitarbeiterBea = {}
     mitarbeiterBea.mitarbeiterId = document.getElementById("mid").value
@@ -37,27 +37,34 @@ function mitarbeiterSpeichern() {
     //d.setHours(d.getHours() + 2)
     // mitarbeiterBea.geburtsdatum = d
     mitarbeiterBea.geburtsdatum = document.getElementById('datePicker').valueAsDate;
-    fetch(uri, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(mitarbeiterBea)
-    })
-        .then(response => {
-            if (response.status == 400) {
-                throw new Error("HTTP status " + response.status);
-            } else {
-                window.location = "mitarbeiterUebersicht.html";
-
-            }
+    var s = document.getElementById("mandant").value;
+    var standort = await getStandort(s);
+    if (standort.standortId == null && s.length > 0) {
+        document.getElementById("error").innerHTML = "Mandant gibt es nicht"
+    } else {
+        mitarbeiterBea.standortId = standort.standortId
+        fetch(uri, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(mitarbeiterBea)
         })
+            .then(response => {
+                if (response.status == 400) {
+                    throw new Error("HTTP status " + response.status);
+                } else {
+                    window.location = "mitarbeiterUebersicht.html";
 
-        .catch(error => {
-            document.getElementById("error").innerHTML = "Alle Pflichtfelder müssen ausgefühlt werden"
-            console.error('Mitarberiter wurde nicht gespeichert', error)
-        });
+                }
+            })
+
+            .catch(error => {
+                document.getElementById("error").innerHTML = "Alle Pflichtfelder müssen ausgefühlt werden"
+                console.error('Mitarberiter wurde nicht gespeichert', error)
+            });
+    }
    //alert(JSON.stringify(mitarbeiterBea))
 }
 //Datum konventieren
@@ -67,4 +74,8 @@ function strToDate(dtStr) {
 
     // month is 0-based, that's why we need dataParts[1] - 1
     return dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+}
+async function getStandort(dataarea) {
+    var response = await fetch("api/standort/dataarea?dataarea=" + dataarea)
+    return await response.json();
 }

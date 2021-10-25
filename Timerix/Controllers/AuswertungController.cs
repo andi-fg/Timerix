@@ -20,7 +20,7 @@ namespace Timerix.Controllers
         {
             _context = context;
         }
-
+        //Get offene Zeiterfassungen für den ganzen Standort
         // GET: api/Arbeitsvorgang
         [HttpGet("gesamt/{sid}")]
         public async Task<ActionResult<IEnumerable<Auswertung>>> GetGesamt(int sid)
@@ -63,6 +63,7 @@ namespace Timerix.Controllers
             }
             return al;
         }
+        //Get alle offenen Zeiterfassung zur Produktionsstrasse
         [HttpGet("maschine/{mid}")]
         public async Task<ActionResult<IEnumerable<Auswertung>>> GetMaschine(int mid)
         {
@@ -92,6 +93,7 @@ namespace Timerix.Controllers
             }
             return al;
         }
+        //Get alle offenen Zeiterfassungen zum Auftrag
         [HttpGet("auftrag/{aid}")]
         public async Task<ActionResult<IEnumerable<Auswertung>>> GetAuftrag(int aid)
         {

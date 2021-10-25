@@ -103,5 +103,22 @@ namespace Timerix.Controllers
         {
             return _context.Standort.Any(e => e.StandortId == id);
         }
+
+        // GET: api/Standort/dataarea?dataarea=test
+        // Get Standort von Dataareaid
+        [HttpGet("dataarea")]
+        public async Task<ActionResult<Standort>> GetStandortDataArea(string dataarea)
+        {
+            var standort =  _context.Standort
+                .Where(stand => stand.Dataareaid == dataarea)
+                .FirstOrDefault();
+
+            if (standort == null)
+            {
+                return NotFound();
+            }
+
+            return standort;
+        }
     }
 }

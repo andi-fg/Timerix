@@ -24,7 +24,6 @@ function getMitarbeiter(mid) {
 }
 var mitarbeiterBea;
 function ausgabe(mit) {
-    //alert(JSON.stringify(mit));
     mitarbeiterBea = mit;
     document.getElementById("mid").innerHTML = mit.mitarbeiterId;
     document.getElementById("name").value = mit.name;
@@ -37,6 +36,15 @@ function ausgabe(mit) {
     document.getElementById("bereich").value = mit.bereich;
     document.getElementById("abt").value = mit.abteilung;
     document.getElementById("aktiv").checked = mit.aktiv;
+    var uri = "api/standort/" + mit.standortId;
+    fetch(uri)
+        .then(response => response.json())
+        .then(data => {
+            if (data.standortId != null) {
+                document.getElementById("mandant").value = data.dataareaid
+            }
+           
+        });
 }
 function getZeit(date) {
     var tag = ((date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate()))
@@ -46,7 +54,7 @@ function getZeit(date) {
     return tag + "/" + monat + "/" + jahr;
 }
 
-function speichern() {
+async function speichern() {
     var uri = "api/mitarbeiter/" + mitarbeiterBea.mitarbeiterId;
     mitarbeiterBea.name = document.getElementById("name").value
     mitarbeiterBea.vorname = document.getElementById("vorname").value
@@ -57,8 +65,13 @@ function speichern() {
     //var d = strToDate(document.getElementById("datum").value)
     //d.setHours(d.getHours() + 1)
     //mitarbeiterBea.geburtsdatum = d
-    
-    fetch(uri, {
+    var s = document.getElementById("mandant").value;
+    var standort = await getStandort(s);
+    if (standort.standortId == null && s.length > 0) {
+        document.getElementById("error").innerHTML = "Mandant gibt es nicht"
+    } else{
+        mitarbeiterBea.standortId = standort.standortId
+        fetch(uri, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
@@ -79,6 +92,7 @@ function speichern() {
             document.getElementById("error").innerHTML = "Alle Pflichtfelder müssen ausgefühlt werden"
             console.error('Zeiterfassung wurde nicht geändert', error)
         });
+    }
     //alert(JSON.stringify(mitarbeiterBea))
 }
 function strToDate(dtStr) {
@@ -87,4 +101,9 @@ function strToDate(dtStr) {
 
     // month is 0-based, that's why we need dataParts[1] - 1
     return dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+}
+
+async function getStandort(dataarea) {
+    var response = await fetch("api/standort/dataarea?dataarea=" + dataarea)
+    return await response.json();
 }

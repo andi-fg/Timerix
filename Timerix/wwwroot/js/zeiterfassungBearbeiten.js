@@ -26,7 +26,9 @@ function ausgabe(data) {
     document.getElementById("aid").value = data.auftrag.auftragId
     document.getElementById("pid").value = data.produktionsstrasse.produktionsstrasseId
     document.getElementById("von").value = getZeit(new Date(data.zeitVon))
-    document.getElementById("bis").value = getZeit(new Date(data.zeitBis))
+    if (data.zeitBis != null) {
+        document.getElementById("bis").value = getZeit(new Date(data.zeitBis))
+    }
     fetchArbeitsvorgang();
 }
 function fetchArbeitsvorgang() {

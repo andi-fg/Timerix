@@ -103,7 +103,7 @@ namespace Timerix.Controllers
         {
             return _context.Produktionsstrasse.Any(e => e.ProduktionsstrasseId == id);
         }
-
+        //Get Produktionsstrasse zum Standort
         // GET: api/Produktionsstrasse/standort/5
         [HttpGet("standort/{sid}")]
         public async Task<ActionResult<IEnumerable<Produktionsstrasse>>> GetProduktionsstrassenStandort(int sid)
@@ -117,6 +117,7 @@ namespace Timerix.Controllers
 
             return produktionsstrasse;
         }
+        //Überprüfe ob Produktionsstrasse am Standort ist
         // GET: api/Produktionsstrasse/5
         [HttpGet("neu/{id}/{sid}")]
         public async Task<ActionResult<Produktionsstrasse>> GetProduktionsstrasseStand(int id, int sid)
