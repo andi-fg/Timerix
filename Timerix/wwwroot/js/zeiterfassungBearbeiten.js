@@ -127,15 +127,16 @@ function updateZeiterfassung(output) {
             var dBis = document.getElementById("bis").value;
             try {
                 var datumVon = strToDate(dVon);
-                datumVon.setHours(datumVon.getHours() + 2);
+               // datumVon.setHours(datumVon.getHours() + 2);
                 var datumBis = strToDate(dBis);
+                
                 if (datumBis > Date.now()) {
                     throw new Error();
                 }
-                datumBis.setHours(datumBis.getHours() + 2);
-                data.zeitVon = datumVon;
-                data.zeitBis = datumBis;
-                if (datumVon > datumBis) {
+                // datumBis.setHours(datumBis.getHours() + 2);
+                data.zeitVon = new Date(Date.UTC(datumVon.getFullYear(), datumVon.getMonth(), datumVon.getDate(), datumVon.getHours(), datumVon.getMinutes(), datumVon.getSeconds()));
+                data.zeitBis = new Date(Date.UTC(datumBis.getFullYear(), datumBis.getMonth(), datumBis.getDate(), datumBis.getHours(), datumBis.getMinutes(), datumBis.getSeconds()));
+                if (data.zeitVon > data.zeitBis) {
                     throw new Error();
                 }
                 if (isNaN(data.zeitBis.getTime())) {
@@ -183,3 +184,4 @@ function strToDate(dtStr) {
     // month is 0-based, that's why we need dataParts[1] - 1
     return dateObject = new Date(dateParts[2], dateParts[1] - 1, +dateParts[0], timeParts[0], timeParts[1], timeParts[2]);
 }
+

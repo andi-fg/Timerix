@@ -92,15 +92,15 @@ function addZeiterfassung(output) {
             var dBis = document.getElementById("bis").value;
             try {
                 var datumVon = strToDate(dVon);
-                datumVon.setHours(datumVon.getHours() + 2);
+               // datumVon.setHours(datumVon.getHours() + 2);
                 var datumBis = strToDate(dBis);
                 if (datumBis > Date.now()) {
                     throw new Error();
                 }
-                datumBis.setHours(datumBis.getHours() + 2);
-                zeiterfassung.zeitVon = datumVon;
-                zeiterfassung.zeitBis = datumBis;
-                if (datumVon > datumBis) {
+                //datumBis.setHours(datumBis.getHours() + 2);
+                zeiterfassung.zeitVon = new Date(Date.UTC(datumVon.getFullYear(), datumVon.getMonth(), datumVon.getDate(), datumVon.getHours(), datumVon.getMinutes(), datumVon.getSeconds()));
+                zeiterfassung.zeitBis = new Date(Date.UTC(datumBis.getFullYear(), datumBis.getMonth(), datumBis.getDate(), datumBis.getHours(), datumBis.getMinutes(), datumBis.getSeconds()));
+                if (zeiterfassung.zeitVon > zeiterfassung.zeitBis) {
                     throw new Error();
                 }
                 if (isNaN(zeiterfassung.zeitBis.getTime())) {
