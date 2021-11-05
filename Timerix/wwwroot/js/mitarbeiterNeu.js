@@ -2,15 +2,33 @@
 init();
 function init() {
     mitarbeiter = initFooter("");
+    fetchStandort();
     document.getElementById('datePicker').valueAsDate = new Date()
 }
+function fetchStandort() {
+    var uri = "api/standort";
+    fetch(uri)
+        .then(response => response.json())
+        .then(data => {
+            standortMenuSelect(data);
+        });
+}
 
+function standortMenuSelect(data) {
+    var sel = document.getElementById("standortSelect");
+    data.forEach(item => {
+        var opt = document.createElement("option");
+        opt.value = item.dataareaid;
+        opt.text = item.bezeichnung;
+        sel.add(opt, null);
+    })
+}
 function speichern() {
     var mid = document.getElementById("mid").value;
     var uri = "api/mitarbeiter/" + mid;
     fetch(uri)
         .then(response => {
-            if (response.status == 404) {
+            if (response.status != 200) {
                 response.json()
             } else {
                 throw new Error("HTTP status " + response.status);
@@ -37,7 +55,8 @@ async function mitarbeiterSpeichern() {
     //d.setHours(d.getHours() + 2)
     // mitarbeiterBea.geburtsdatum = d
     mitarbeiterBea.geburtsdatum = document.getElementById('datePicker').valueAsDate;
-    var s = document.getElementById("mandant").value;
+    var s = document.getElementById("standortSelect").value;
+    alert(s);
     var standort = await getStandort(s);
     if (standort.standortId == null && s.length > 0) {
         document.getElementById("error").innerHTML = "Mandant gibt es nicht"

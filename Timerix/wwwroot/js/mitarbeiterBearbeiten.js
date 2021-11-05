@@ -36,7 +36,8 @@ function ausgabe(mit) {
     document.getElementById("bereich").value = mit.bereich;
     document.getElementById("abt").value = mit.abteilung;
     document.getElementById("aktiv").checked = mit.aktiv;
-    var uri = "api/standort/" + mit.standortId;
+    fetchStandort();
+   /* var uri = "api/standort/" + mit.standortId;
     fetch(uri)
         .then(response => response.json())
         .then(data => {
@@ -44,7 +45,32 @@ function ausgabe(mit) {
                 document.getElementById("mandant").value = data.dataareaid
             }
            
+        });*/
+}
+function fetchStandort() {
+    var uri = "api/standort";
+    fetch(uri)
+        .then(response => response.json())
+        .then(data => {
+            standortMenuSelect(data);
         });
+}
+
+function standortMenuSelect(data) {
+    var sel = document.getElementById("standortSelect");
+    var standort = null;
+    data.forEach(item => {
+        var opt = document.createElement("option");
+        opt.value = item.dataareaid;
+        opt.text = item.bezeichnung;
+        sel.add(opt, null);
+        if (mitarbeiterBea.standortId == item.standortId) {
+            standort = item.dataareaid;
+        }
+    })
+    if (mitarbeiter.standortId != null) {
+        document.getElementById('standortSelect').value = standort;
+    }
 }
 function getZeit(date) {
     var tag = ((date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate()))
@@ -65,7 +91,7 @@ async function speichern() {
     //var d = strToDate(document.getElementById("datum").value)
     //d.setHours(d.getHours() + 1)
     //mitarbeiterBea.geburtsdatum = d
-    var s = document.getElementById("mandant").value;
+    var s = document.getElementById("standortSelect").value;
     var standort = await getStandort(s);
     if (standort.standortId == null && s.length > 0) {
         document.getElementById("error").innerHTML = "Mandant gibt es nicht"
