@@ -7,3 +7,14 @@
 	background-color: #0000CD;
 	color:white;
 }
+.btn-footer { /** Kleiner Viewport: Handy **/
+	height: 60px;
+	width: 100%;
+	font-size: 23px;
+}
+@media ( min-width: 1000px ) { /** Größerer Viewport: Tablett **/
+	.btn-footer {
+		height: 40px;
+		font-size: 13px;
+	}
+}

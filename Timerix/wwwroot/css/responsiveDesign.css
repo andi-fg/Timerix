@@ -1,0 +1,113 @@
+﻿.textFooter{
+	font-size: 18px;
+}
+.buttonBearbeiten {
+	height:90px;
+	font-size: 40px;
+}
+.buttonImportieren {
+	height: 90px;
+	font-size: 30px;
+}
+.buttonMenu {
+	height: 70px;
+	font-size: 20px;
+	display: none
+}
+.textMenu {
+	color: black;
+	font-size: 20px
+}
+.selectMenu {
+	height: 70px;
+	font-size: 20px;
+	text-align: center;
+}
+.inputNeuerAuftrag {
+	font-size: 35px;
+	font-weight: bold;
+	height: 90px;
+}
+.selectNeuerAuftrag {
+	height: 90px;
+	font-size: 25px;
+	text-align: center;
+}
+.buttonDetails {
+	height: 70px;
+	font-weight: bold;
+	font-size: 25px;
+}
+.inputAuswertung {
+	font-size: 20px;
+	font-weight: bold;
+	height: 70px;
+}
+@media ( min-width: 1000px ) { /** Größerer Viewport: Tablett **/
+	.buttonBearbeiten {
+		height: 40px;
+		font-size: 13px;
+	}
+	.buttonImportieren {
+		height: 40px;
+		font-size: 13px;
+	}
+}
+@media(max-width: 1000px){
+	.tableDesign {
+		font-size: 25px;
+	}
+	.selectDesign {
+		font-size:40px;
+	}
+	.selectAuswahl{
+		font-size: 15px;
+	}
+	.inputText{
+		font-size:25px;
+		height:60px;
+	}
+	.tableDesignZeiterfassung {
+		font-size: 20px;
+	}
+	.tableDesignAuswertungGesamt {
+		font-size: 18px;
+	}
+	.textBeschreibung{
+		font-size: 25px;
+	}
+	.buttonMenu {
+		height: 140px;
+		font-size: 30px;
+		display: none
+	}
+	.textMenu {
+		color: black;
+		font-size: 30px
+	}
+	.selectMenu {
+		font-size: 30px;
+	}
+	.inputNeuerAuftrag {
+		font-size: 40px;
+		font-weight: bold;
+		height: 120px;
+	}
+	.selectNeuerAuftrag {
+		height: 120px;
+		font-size: 30px;
+		text-align: center;
+	}
+	.buttonDetails {
+		height: 90px;
+		font-weight: bold;
+		font-size: 30px;
+	}
+	.inputAuswertung {
+		font-size: 30px;
+		height: 90px;
+	}
+}
+
+
+

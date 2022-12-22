@@ -31,6 +31,7 @@ function standortMenuSelect(data) {
         var opt = document.createElement("option");
         opt.value = JSON.stringify(item);
         opt.text = item.bezeichnung;
+        opt.classList.add("selectAuswahl")
         sel.add(opt, null);
         if (mitarbeiter.standortId == item.standortId) {
             standort = item;

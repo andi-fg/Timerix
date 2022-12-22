@@ -7,6 +7,8 @@
     <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-grid.css" rel="stylesheet" />
     <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-reboot.css" rel="stylesheet" />
     <link href="lib/bootstrap-5.1.0-dist/css/bootstrap-utilities.css" rel="stylesheet" />
+    <link href="css/buttons.css" rel="stylesheet" />
+    <link href="css/responsiveDesign.css" rel="stylesheet" />
 </head>
 <body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -82,32 +84,32 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-3 offset-3">
-                <button class="btn btn-danger form-control" style="height:70px; font-weight:bold" onclick="auftragBeenden()">Auftrag beenden</button>
+            <div class="col-lg-3 offset-lg-3 col-sm-5 offset-sm-1">
+                <button class="btn btn-danger form-control buttonDetails"  onclick="auftragBeenden()">Auftrag beenden</button>
             </div>
-            <div class="col-3">
-                <button class="btn btn-secondary form-control" style="height:70px; font-weight:bold" onclick="vorgangWechseln()">Arbeitsvorgang ändern</button>
+            <div class="col-lg-3 col-sm-5">
+                <button class="btn btn-secondary form-control buttonDetails" onclick="vorgangWechseln()">Arbeitsvorgang ändern</button>
             </div>
         </div>
     </div>
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-2">
-                    <button id="mitButton" type="button" onclick="mitarbeiterUeber()" class="btn btn-secondary form-control" style="height:40px;font-size:13px; margin-right: 2px" hidden>Mitarbeiter</button>
+                <div class="col-sm-3 col-lg-2">
+                    <button id="mitButton" type="button" class="btn btn-secondary form-control btn-footer" style=" margin-right: 2px " hidden onclick="mitarbeiterUeber()">Mitarbeiter</button>
                 </div>
-                <div class="col-2">
-                    <button id="tagesrapport" type="button" class="btn btn-secondary form-control" style="height: 40px; font-size: 13px; " onclick="showTagesrapport()" hidden>Tagesrapport</button>
+                <div class="col-sm-3 col-lg-2">
+                    <button id="tagesrapport" type="button" class="btn btn-secondary form-control btn-footer" onclick="showTagesrapport()" hidden>Tagesrapport</button>
                 </div>
-                <div class="col-2">
-                    <button id="import" type="button" class="btn btn-secondary form-control" style="height: 40px; font-size: 13px; " onclick="importData()" hidden>Import</button>
+                <div class="col-sm-3 col-lg-2">
+                    <button id="import" type="button" class="btn btn-secondary form-control btn-footer" onclick="importData()" hidden>Import</button>
                 </div>
             </div>
             <div class="row">
-                <div style="text-align:left" class="col p-4" id="mitDaten">
+                <div style="text-align:left" class="col p-4 textFooter" id="mitDaten">
 
                 </div>
-                <div style="text-align:right" class="p-4 col" id="zeit">
+                <div style="text-align:right" class="p-4 col textFooter" id="zeit">
 
                 </div>
             </div>
