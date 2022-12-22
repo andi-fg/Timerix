@@ -1,0 +1,1 @@
+﻿Timerix Desing update. Funktion sollten gleich sien wie beim alten.
